@@ -8,7 +8,7 @@
 #include "material.hpp"
 #include "scene.hpp"
 #include "lightsource.hpp"
-#include "ambient.hpp"
+//#include "ambient.hpp"
 #include <glm/glm.hpp>
 #include <glm/gtx/intersect.hpp>
 #include <iostream>
@@ -38,7 +38,7 @@ TEST_CASE ("box_default_constructor","[default]")
   REQUIRE (b1.getMin().z == 0);
   std::cout << "--------------------------------------------- \n";
 }*/
-/* 
+ 
 TEST_CASE ("box_constructor","[custom_constructor]")
 {
   std::cout << "--------------------------------------------- \n";
@@ -106,7 +106,7 @@ TEST_CASE ("box_volume","[volume]")
   Box b1 {glm::vec3{1,1,1}, glm::vec3{3,8,3}, "francine", m1};
   REQUIRE (b1.volume() == 64);
   std::cout << "--------------------------------------------- \n";
-} */ 
+} 
 /*
 TEST_CASE ("sphere_getter_shape","[shape_getter]")
 { 
@@ -138,9 +138,9 @@ TEST_CASE ("box_getter_shape","[shape_getter]")
   REQUIRE (b2.getColor().g == 0.0f);
   REQUIRE (b2.getColor().b == 0.0f);
   std::cout << "--------------------------------------------- \n";
-} 
-*/
-/*
+} */
+
+
 TEST_CASE ("sphere_print","[print]")
 { 
   std::cout << "--------------------------------------------- \n";
@@ -235,25 +235,25 @@ TEST_CASE("Box_intersect", "[intersect]")
 
 
 }
-
+/*
 TEST_CASE("Scene test") {
 	std::shared_ptr<Scene> scene = std::make_shared<Scene>();
 	SDFFileLoader("/home/nicola/Dokumente/Programmiersprachen/ProPra Abgabe 6/programmiersprachen-raytracer/source/example.sdf",*scene);
 	std::cout<<"Search result:"<<*materialMapSearch("red",*scene)<<"\n";
 	REQUIRE(materialMapSearch("black",*scene) == nullptr);
-}*/ 
+} */
 
 //Tests für den Raytracer
-/*
+
 TEST_CASE ("light_print","[print]")
 { 
   std::cout << "--------------------------------------------- \n";
   Color color{1.0f, 1.0f, 1.0f};
-  std::shared_ptr<Ambient> a1 = std::make_shared<Ambient>(color);
-  Lightsource lighty {"lighty", glm::vec3{1,1,1}, color, a1};
+  //std::shared_ptr<Ambient> a1 = std::make_shared<Ambient>(color);
+  Lightsource lighty {"lighty", glm::vec3{1,1,1}, color};
   std::cout << lighty;
   std::cout << "--------------------------------------------- \n";
-} */ 
+} 
 
 int main(int argc, char *argv[])
 {
