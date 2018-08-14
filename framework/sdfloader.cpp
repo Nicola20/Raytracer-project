@@ -1,6 +1,6 @@
 #include "sdfloader.hpp"
-
- Scene SDFFileLoader(std::string const& fileIn, Scene& scene) {  //Frage: wie genau increase ich die linien und lese von genau dieser Linie etwas?
+/*
+ Scene loadFile(std::string const& fileIn, Scene& scene) {  //Frage: wie genau increase ich die linien und lese von genau dieser Linie etwas?
 
      std::ifstream file;
      Scene scene;
@@ -82,7 +82,7 @@
        }
      }
      //return vec_mat;
- }
+ }*/
 
 /*
  std::shared_ptr<Material> materialMapSearch (std::string name, Scene& scene) {
