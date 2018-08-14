@@ -8,6 +8,12 @@ Box::Box (glm::vec3 const& min, glm::vec3 const& max,std::string const& name, st
         std::cout << "ctor of derived class Box \n";
     }
 
+Box::Box():
+    Shape::Shape{},
+    min_{0.0f, 0.0f, 0.0f},
+    max_{1.0f, 1.0f, 1.0f} { }
+    
+
 Box::~Box(){
     std::cout << "dtor of derived class Box \n";
 }
@@ -19,7 +25,7 @@ glm::vec3 Box::getMin() const{
 glm::vec3 Box::getMax() const {
     return max_;
 }
-
+/*
 //calculates the surface
 double Box::area() const {
     double a = max_.z - min_.z;  //diference on z-axsis; + because max_ has a negative value
@@ -38,7 +44,7 @@ double Box::volume() const {
 
     return 2*(a*b + b*c + a*c);
 
-} 
+} */
 
 std::ostream& Box::print(std::ostream& os) const {
     Shape::print(os);

@@ -9,8 +9,9 @@ class Box: public Shape {
 
     public:
     Box (glm::vec3 const& min, glm::vec3 const& max,std::string const& name, std::shared_ptr<Material> const& mat);
-    double area() const override;  //calculates the surface
-    double volume() const override;  //calculates the volume
+    Box ();
+    //double area() const override;  //calculates the surface
+    //double volume() const override;  //calculates the volume
     glm::vec3 getMax() const;
     glm::vec3 getMin() const;
     std::ostream& print(std::ostream& os) const override;
