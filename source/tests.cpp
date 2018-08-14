@@ -6,7 +6,7 @@
 #include "shape.hpp"
 #include "ray.hpp"
 #include "material.hpp"
-#include "scene.hpp"
+#include "sdfloader.hpp"
 #include "lightsource.hpp"
 //#include "ambient.hpp"
 #include <glm/glm.hpp>
@@ -66,7 +66,7 @@ TEST_CASE ("sphere_constructor","[sphere_constructor]")
   REQUIRE (s1.getRadius() == 4.0);
   std::cout << "--------------------------------------------- \n";
 }
-
+/*
 TEST_CASE ("sphere_area","[area]")
 { 
   std::cout << "--------------------------------------------- \n";
@@ -106,7 +106,7 @@ TEST_CASE ("box_volume","[volume]")
   Box b1 {glm::vec3{1,1,1}, glm::vec3{3,8,3}, "francine", m1};
   REQUIRE (b1.volume() == 64);
   std::cout << "--------------------------------------------- \n";
-} 
+}*/ 
 /*
 TEST_CASE ("sphere_getter_shape","[shape_getter]")
 { 
