@@ -12,9 +12,10 @@
 
 
 struct Scene {
-    Color ia;
+   /*
+    Color ia_;
     std::map<std::string, std::shared_ptr<Material>> map_mat;
-
+*/
 
 };
 #endif
