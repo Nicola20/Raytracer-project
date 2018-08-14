@@ -9,9 +9,10 @@
 class Shape {
 
     public:
-    virtual double area() const = 0;  //calculates the surface
-    virtual double volume() const = 0;  //calculates the volume
+    //virtual double area() const = 0;  //calculates the surface
+    //virtual double volume() const = 0;  //calculates the volume
     Shape(std::string const& name,std::shared_ptr<Material> const& mat);
+    Shape ();
     virtual std::ostream& print(std::ostream& os) const;
     std::string getName() const;
     virtual ~Shape();

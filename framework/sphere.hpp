@@ -9,8 +9,8 @@ class Sphere: public Shape {
 
     public:
     Sphere (glm:: vec3 const& c, double r, std::string const& name, std::shared_ptr<Material> const& mat);
-    double area() const override;  //calculates the surface
-    double volume() const override;  //calculates the volume
+    //double area() const override;  //calculates the surface
+    //double volume() const override;  //calculates the volume
     glm::vec3 getCenter() const;
     double getRadius() const;
     std::ostream& print(std::ostream& os) const override;

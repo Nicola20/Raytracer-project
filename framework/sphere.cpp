@@ -19,7 +19,7 @@ glm::vec3 Sphere::getCenter() const{
 double Sphere::getRadius() const {
     return radius_;
 }
-
+/*
 //calculates the surface
 double Sphere::area() const{
     return ((4/3.0f)*M_PI*pow(radius_,3));
@@ -28,7 +28,7 @@ double Sphere::area() const{
 //calculates the volume
 double Sphere::volume() const {
     return (4*M_PI*pow(radius_,2));
-}
+}*/
 
 std::ostream& Sphere::print(std::ostream& os) const {
     Shape::print(os);

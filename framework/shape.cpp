@@ -7,6 +7,11 @@ Shape::Shape(std::string const& name, std::shared_ptr<Material> const& mat):
         std::cout << "ctor of base class shape \n";
     }
 
+Shape::Shape():
+    name_{"Default Shape"},
+    material_{} {}
+
+
 Shape::~Shape(){                  //dtor = destructor
     std::cout << "dtor of base class Shape \n";
 }
