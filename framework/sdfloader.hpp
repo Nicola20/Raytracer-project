@@ -7,8 +7,8 @@
 #include <fstream>
 
 struct SDFLoader {
-    /*
-    void loadFile(std::string const& fileIn, Scene& scene);
-    */
+    
+    Scene loadFile(std::string const& fileIn);
+    
 };
 #endif

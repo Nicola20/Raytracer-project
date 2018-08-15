@@ -1,9 +1,14 @@
 #include "sdfloader.hpp"
-/*
- Scene loadFile(std::string const& fileIn, Scene& scene) {  //Frage: wie genau increase ich die linien und lese von genau dieser Linie etwas?
+#include <map>
+#include <memory>
+
+
+/*Verbesserungsmöglichkeit: Einfach wie bei Material etwas erstellen und dann einlesen; geht aber nur mit Default-Konstruktor*/
+ Scene loadFile(std::string const& fileIn) {  
 
      std::ifstream file;
      Scene scene;
+     std::map<std::string, std::shared_ptr<Shape>> sceneshapes;
      std::string line;
      file.open(fileIn);
 
@@ -59,7 +64,7 @@
                         ss>> bmax.z;
                         ss>>mat;
 
-                        Box b {bmin, bmax, bname, mat};
+                        //Box b {bmin, bmax, bname, mat};
                         //hier noch die Box in einen Container verfrachten und material als shared_ptr woanders abspeichern
                     }
                     if(keyword == "sphere"){
@@ -73,16 +78,77 @@
                         ss>> scenter.z;
                         ss>> sradius;
                         ss>> mat;
-                        Sphere s {scenter, sradius, sname, mat};   //das gleiche wie mit box und dem material
+                        //Sphere s {scenter, sradius, sname, mat};   //das gleiche wie mit box und dem material
+                    }
+
+                    if (keyword == "composite") {
+                        std::string compositeName;
+                        std::string newShape;
+
+                        ss<<compositeName;
+
+                        scene.composite_ = std::make_shared<Composite>(compositeName);
+
+                        while(!ss.eof()) {  //solange das File noch nicht zu Ende ist lies shapenamen ein
+                            ss<<newShape;
+                             auto existingShape = sceneshapes.find(newShape); //schaue ob es das shape bereits existiert
+
+                             if(existingShape != sceneshape.end()){
+
+                                 std::shared_ptr<Shape> tmpshape = existingShape->second;
+                                 scene.composite_ -> addShape(tmpshape);
+                             } 
+
+                        }
                     }
                     
+                } //shape geschlossen
+
+                if (keyword == "light") {
+
                 }
+
+                if (keyword == "camera") {
+                    std::string cname;
+                    double fox_x;
+                    glm::vec3 pos;
+                    glm::vec3 dir;
+                    glm::vec3 up;
+
+                    ss<<cname;
+                    ss<<fox_x;
+                    ss<<pos.x;
+                    ss<<pos.y;
+                    ss<<pos.z;
+                    ss<<dir.x;
+                    ss<<dir.y;
+                    ss<<dir.z;
+                    ss<<up.x;
+                    ss<<up.y;
+                    ss<<up.z;
+
+                    scene.cam_ = Camera {cname, fox_x, pos, dir, up};
+
+                }
+            } //define geschlossen
+
+            if (keyword == "ambient") {
+                Color ambient;
+
+                ss<<ambient.r;
+                ss<<ambient.g;
+                ss<<ambient.b;
+
+                scene.ia_ = ambient;
+
             }
         file.close(); 
        }
      }
      //return vec_mat;
- }*/
+ }
+
+
 
 /*
  std::shared_ptr<Material> materialMapSearch (std::string name, Scene& scene) {
