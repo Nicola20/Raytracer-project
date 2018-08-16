@@ -253,6 +253,14 @@ TEST_CASE ("light_print","[print]")
   Lightsource lighty {"lighty", glm::vec3{1,1,1}, color};
   std::cout << lighty;
   std::cout << "--------------------------------------------- \n";
+}
+
+TEST_CASE ("camera_print","[print]")
+{ 
+  std::cout << "--------------------------------------------- \n";
+  Camera cam {};
+  std::cout << cam;
+  std::cout << "--------------------------------------------- \n";
 } 
 
 int main(int argc, char *argv[])
