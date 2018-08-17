@@ -8,6 +8,7 @@
 #include "material.hpp"
 #include "sdfloader.hpp"
 #include "lightsource.hpp"
+#include "composite.hpp"
 //#include "ambient.hpp"
 #include <glm/glm.hpp>
 #include <glm/gtx/intersect.hpp>
@@ -262,6 +263,14 @@ TEST_CASE ("camera_print","[print]")
   std::cout << cam;
   std::cout << "--------------------------------------------- \n";
 } 
+
+TEST_CASE ("composite_print","[print]")
+{ 
+  std::cout << "--------------------------------------------- \n";
+  Composite comp {};
+  std::cout << comp;
+  std::cout << "--------------------------------------------- \n";
+}
 
 int main(int argc, char *argv[])
 {
