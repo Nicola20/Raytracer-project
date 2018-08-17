@@ -2,8 +2,7 @@
 #include <map>
 #include <memory>
 
-
-/*Verbesserungsmöglichkeit: Einfach wie bei Material etwas erstellen und dann einlesen; geht aber nur mit Default-Konstruktor*/
+/*
  Scene loadFile(std::string const& fileIn) {  
 
      std::ifstream file;
@@ -64,8 +63,11 @@
                         ss>> bmax.z;
                         ss>>mat;
 
-                        //Box b {bmin, bmax, bname, mat};
-                        //hier noch die Box in einen Container verfrachten und material als shared_ptr woanders abspeichern
+
+                        std::shared_ptr<Material> materials = (scene.map_mat.find(mat) -> second); 
+
+                        auto box = std::make_shared<Box>(bname, bmin, bmax, mat);
+                        sceneshapes[bname] = box; //add to container so that you can find it afterwards for composite
                     }
                     if(keyword == "sphere"){
                         std::string sname;
@@ -78,7 +80,11 @@
                         ss>> scenter.z;
                         ss>> sradius;
                         ss>> mat;
-                        //Sphere s {scenter, sradius, sname, mat};   //das gleiche wie mit box und dem material
+                        
+                        std::shared_ptr<Material> materials = (scene.map_mat.find(mat) -> second); 
+
+                        auto sphere = std::make_shared<Sphere>(sname, scenter, sradius, mat);
+                        sceneshapes[sname] = sphere;
                     }
 
                     if (keyword == "composite") {
@@ -105,6 +111,22 @@
                 } //shape geschlossen
 
                 if (keyword == "light") {
+
+                    unsigned int vecSize = 0;
+                    Lightsource light;
+
+                    ss<<light.name_;
+                    ss<<light.position_.x;
+                    ss<<light.position_.y;
+                    ss<<light.position_.z;
+                    ss<<light.lightcol_.r;
+                    ss<<light.lightcol_g;
+                    ss<<light.lightcol_b;
+                    ss<<light.ip_;
+
+                    scene.light_.push_back(light);
+                    ++ vecSize;
+
 
                 }
 
@@ -142,11 +164,16 @@
                 scene.ia_ = ambient;
 
             }
+
+            if (keyword == "render") {
+
+            }
+
         file.close(); 
        }
      }
-     //return vec_mat;
- }
+     //return scene;
+ }*/
 
 
 
