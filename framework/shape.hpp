@@ -3,6 +3,7 @@
 
 #include "material.hpp"
 #include "ray.hpp"
+#include "hit.hpp"
 #include <string>
 #include <memory>
 
@@ -17,7 +18,7 @@ class Shape {
     std::string getName() const;
     virtual ~Shape();
     //~Shape();
-    virtual bool intersect (Ray const& ray, float& t) = 0;
+    virtual Hit intersect (Ray const& rayn) = 0;
 
     protected:
     std::string name_;
