@@ -1,4 +1,6 @@
 #include "camera.hpp"
+#include "ray.hpp"
+#include <glm/vec4.hpp>
 
 Camera::Camera ():
     name_{"default camera"},
@@ -23,6 +25,10 @@ Camera::Camera(std::string const& name, float fox_x, glm::vec3 const& eye, glm::
     direction_{dir},
     upVector_{up} {}
 
+
+Ray calculateRay(unsigned x, unsigned y) {
+	glm::vec4 camMat{up_}
+}
 
  std::ostream& Camera::print(std::ostream& os) const {
     os << "Camera: " << name_<<"\n" 

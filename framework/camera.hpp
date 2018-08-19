@@ -4,6 +4,8 @@
 #include <string>
 #include <glm/vec3.hpp>
 #include <iostream>
+#include "ray.hpp"
+#include <glm/vec4.hpp>
 
 struct Camera {
 
@@ -11,6 +13,7 @@ struct Camera {
     Camera(std::string const& name, float fox_x);
     Camera(std::string const& name, float fox_x, glm::vec3 const& eye, glm::vec3 const& dir, glm::vec3 const& up);
     std::ostream& print (std::ostream& os) const;
+	Ray calculateRay(unsigned x, unsigned y);
 
 
     std::string name_;
