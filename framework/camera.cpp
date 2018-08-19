@@ -27,7 +27,7 @@ Camera::Camera(std::string const& name, float fox_x, glm::vec3 const& eye, glm::
 
 
 Ray calculateRay(unsigned x, unsigned y) {
-	glm::vec4 camMat{up_}
+	
 }
 
  std::ostream& Camera::print(std::ostream& os) const {
