@@ -9,7 +9,6 @@
 #include "sdfloader.hpp"
 #include "lightsource.hpp"
 #include "composite.hpp"
-//#include "ambient.hpp"
 #include <glm/glm.hpp>
 #include <glm/gtx/intersect.hpp>
 #include <iostream>
@@ -161,7 +160,7 @@ TEST_CASE ("box_print","[print]")
   std::cout << boxie;
   std::cout << "--------------------------------------------- \n";
 } 
-
+/*
 TEST_CASE ("intersect_ray_sphere","[intersect]")  
 {
     std::cout << "--------------------------------------------- \n";
@@ -193,7 +192,7 @@ TEST_CASE ("intersect_ray_sphere","[intersect]")
     REQUIRE (s1.intersect(ray1,distance) == true);
 
     std::cout << "--------------------------------------------- \n";
-}  
+} */ 
 
 TEST_CASE ("ctor_and_dtor", "[5.8")
 {
@@ -212,7 +211,7 @@ TEST_CASE ("ctor_and_dtor", "[5.8")
     delete s2;
     std::cout << "--------------------------------------------- \n";
 }
-
+/*
 TEST_CASE("Box_intersect", "[intersect]")
 {
 
@@ -235,7 +234,7 @@ TEST_CASE("Box_intersect", "[intersect]")
   REQUIRE(t == 1.0);
 
 
-}
+}*/
 /*
 TEST_CASE("Scene test") {
 	std::shared_ptr<Scene> scene = std::make_shared<Scene>();
@@ -244,6 +243,8 @@ TEST_CASE("Scene test") {
 	REQUIRE(materialMapSearch("black",*scene) == nullptr);
 } */
 
+
+
 //Tests für den Raytracer
 
 TEST_CASE ("light_print","[print]")
@@ -251,7 +252,7 @@ TEST_CASE ("light_print","[print]")
   std::cout << "--------------------------------------------- \n";
   Color color{1.0f, 1.0f, 1.0f};
   //std::shared_ptr<Ambient> a1 = std::make_shared<Ambient>(color);
-  Lightsource lighty {"lighty", glm::vec3{1,1,1}, color};
+  Lightsource lighty {"lighty", glm::vec3{1,1,1}, color, 10};
   std::cout << lighty;
   std::cout << "--------------------------------------------- \n";
 }
@@ -271,6 +272,110 @@ TEST_CASE ("composite_print","[print]")
   std::cout << comp;
   std::cout << "--------------------------------------------- \n";
 }
+
+TEST_CASE ("sphere_hitintersection","[hitintersection]")
+{ 
+  std::cout << "--------------------------------------------- \n";
+    // Ray
+    glm::vec3 ray_origin{0.0f,0.0f,0.0f};
+    glm::vec3 ray_direction{0.0f,0.0f,1.0f};
+
+    // Sphere
+    glm::vec3 sphere_center{0.0f,0.0f,5.0f};
+    float sphere_radius {1.0f};
+
+    float distance = 0.0f;  
+
+    Color color{1.0f, 1.0f, 1.0f}; 
+    std::shared_ptr<Material> m1 = std::make_shared<Material>("default", color, color, color, 4.0f);
+
+    Sphere s1{sphere_center, sphere_radius, "experimental", m1};
+    Ray ray1 {ray_origin, ray_direction};
+
+    
+    glm::vec3 norm{0.0f, 0.0f, -1.0f};
+    glm::vec3 intersect {0.0f, 0.0f, 4.0f};
+    //Shape* shape = s1;
+    //Hit spherehit{true, 4.0f, norm, intersect, shape}; 
+    Hit hit = s1.intersect(ray1);
+
+    //REQUIRE (distance == Approx(4.0f));
+    REQUIRE (hit. hit_ == true);
+    REQUIRE (hit. distance_ == Approx(4.0f));
+    REQUIRE (hit. normal_ == norm);
+    REQUIRE (hit. intersection_ == intersect);
+    //REQUIRE (hit. closest_shape_ == s1);
+
+  std::cout << "--------------------------------------------- \n";
+}
+
+TEST_CASE("Box_hitintersection", "[hitintersection]")
+{
+
+  glm::vec3 ray_origin{1.0 ,0.0 ,0.0};
+  glm::vec3 ray_direction{-1.0 ,0.0 ,0.0};
+  Ray ray{ray_origin, ray_direction};
+  Color color{1.0f, 1.0f, 1.0f}; 
+  std::shared_ptr<Material> m1 = std::make_shared<Material>("default", color, color, color, 4.0f);
+  Box box{glm::vec3{-2,-2,1}, glm::vec3{2,6,5}, "Box", m1};
+
+  glm::vec3 ray_orig{0.0, 0.0, 0.0};
+  glm::vec3 ray_direc{0.0, 0.0, 1.0};
+  Ray ray2 {ray_orig, ray_direc};
+  float t {0.0};
+
+  Hit hit = box.intersect(ray2);
+
+  REQUIRE(hit.hit_ == true);
+  REQUIRE(hit.distance_ == Approx(1.0f));
+  //REQUIRE(hit.)
+
+}
+
+TEST_CASE ("composite_intersection","[intersection]")
+{ 
+  std::cout << "--------------------------------------------- \n";
+
+  typedef std::shared_ptr<Shape> shape_ptr;
+    Color color{1.0f, 1.0f, 1.0f}; 
+    std::shared_ptr<Material> m1 = std::make_shared<Material>("default", color, color, color, 4.0f);
+
+  shape_ptr s1 = std::make_shared<Sphere>(Sphere {{0.0f, 0.0f, -4.0f}, 5.2,"s1", m1});
+  shape_ptr s2 = std::make_shared<Sphere>(Sphere {{4.0f, 0.0f, -5.0f}, 2.1, "s2", m1});
+  shape_ptr s3 = std::make_shared<Sphere>(Sphere {{1.0f, 0.3f, 2.0f}, 1.9, "s3", m1});
+  shape_ptr s4 = std::make_shared<Sphere>(Sphere {{0.0f, 0.0f, -3.0f}, 2.2, "s4", m1});
+  shape_ptr s5 = std::make_shared<Sphere>(Sphere {{0.0f, 0.0f, -2.9f}, 2.2, "s5", m1});
+  shape_ptr b1 = std::make_shared<Box>(Box {{-1.0f,-1.0f,-6.0f}, {5.0f,3.0f,-9.0f}, "Box", m1});
+
+  Composite comp {};
+  comp.addShape(s1);
+  comp.addShape(s2);
+  comp.addShape(s3);
+  comp.addShape(s4);
+  comp.addShape(b1);
+
+  Ray ray {{0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, -1.0f}};
+  Hit hit1 = s1 -> intersect(ray);
+  Hit hit2 = s2 -> intersect(ray);
+  Hit hit4 = s4 -> intersect(ray);
+  Hit hit5 = s5 -> intersect(ray);
+  Hit hitbox = b1 -> intersect(ray);
+  Hit hitComp = comp.intersect(ray);
+
+  REQUIRE(hit4.distance_ == hitComp.distance_);
+  REQUIRE(hit2.hit_ != hitComp.hit_);
+  REQUIRE(hit2.distance_ > hitComp.distance_);
+  REQUIRE(hit1.hit_ == hitComp.hit_);
+  REQUIRE(hit1.distance_ > hitComp.distance_);
+  REQUIRE(hit5.distance_ < hitComp.distance_);
+
+  REQUIRE(hitbox.distance_ == Approx(6.0f)); // hier stimmt etwas noch nicht so ganz...
+  REQUIRE(hitbox.hit_ == true);
+  REQUIRE(hitbox.distance_ > hitComp.distance_);
+  std::cout << comp;
+  std::cout << "--------------------------------------------- \n";
+}
+
 
 int main(int argc, char *argv[])
 {
