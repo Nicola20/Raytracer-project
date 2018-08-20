@@ -18,7 +18,7 @@ class Shape {
     std::string getName() const;
     virtual ~Shape();
     //~Shape();
-    virtual Hit intersect (Ray const& rayn) = 0;
+    virtual Hit intersect (Ray const& ray) = 0;
 
     protected:
     std::string name_;
