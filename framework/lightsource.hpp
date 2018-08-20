@@ -10,6 +10,12 @@
 
 struct Lightsource {
 
+Lightsource():
+    name_{"defaultlight"},
+    position_{},
+    lightcol_{1.0f,1.0f, 1.0f},
+    ip_{0} {}
+
 Lightsource(std::string const& name, glm::vec3 const& pos, Color const& col, int ip):
     name_{name},
     position_{pos},
