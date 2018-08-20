@@ -5,10 +5,12 @@
 #include <string>
 #include <algorithm>
 #include <fstream>
+#include <iostream>
+#include <sstream>
 
 struct SDFLoader {
-    /*
+    
     Scene loadFile(std::string const& fileIn);
-    */
+    
 };
 #endif

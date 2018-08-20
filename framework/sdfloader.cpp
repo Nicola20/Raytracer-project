@@ -2,7 +2,7 @@
 #include <map>
 #include <memory>
 
-/*
+
  Scene loadFile(std::string const& fileIn) {  
 
      std::ifstream file;
@@ -39,8 +39,11 @@
                     ss>> mat.ks_.b;
 
                     ss>> mat.m_;
+                    
                     std::shared_ptr<Material> matPoint = std::make_shared<Material>(mat);
-                    scene.map_mat.insert(std::pair<std::string,std::shared_ptr<Material>>(matPoint->name,matPoint));
+                    //scene.map_mat.insert(std::pair<std::string,std::shared_ptr<Material>>(matPoint->name,matPoint));
+
+                    scene.map_mat[mat.name] = matPoint;
 
                 }
                 
@@ -52,7 +55,7 @@
                         std::string bname;
                         glm::vec3 bmin;
                         glm::vec3 bmax;
-                        Material mat;
+                        std::string mat;
 
                         ss>> bname;
                         ss>> bmin.x;
@@ -64,16 +67,16 @@
                         ss>>mat;
 
 
-                        std::shared_ptr<Material> materials = (scene.map_mat.find(mat) -> second); 
+                        std::shared_ptr<Material> boxMat = (scene.map_mat.find(mat) -> second); 
 
-                        auto box = std::make_shared<Box>(bname, bmin, bmax, mat);
+                        auto box = std::make_shared<Box>(bmin, bmax, bname, boxMat);
                         sceneshapes[bname] = box; //add to container so that you can find it afterwards for composite
                     }
-                    if(keyword == "sphere"){
+                    if(keyword == "sphere"){ 
                         std::string sname;
                         glm::vec3 scenter;
                         float sradius;
-                        Material mat;
+                        std::string mat;
                         ss>> sname;
                         ss>> scenter.x; 
                         ss>> scenter.y; 
@@ -81,9 +84,9 @@
                         ss>> sradius;
                         ss>> mat;
                         
-                        std::shared_ptr<Material> materials = (scene.map_mat.find(mat) -> second); 
+                        std::shared_ptr<Material> sphereMat = (scene.map_mat.find(mat) -> second); 
 
-                        auto sphere = std::make_shared<Sphere>(sname, scenter, sradius, mat);
+                        auto sphere = std::make_shared<Sphere>(scenter, sradius, sname, sphereMat);
                         sceneshapes[sname] = sphere;
                     }
 
@@ -99,7 +102,7 @@
                             ss<<newShape;
                              auto existingShape = sceneshapes.find(newShape); //schaue ob es das shape bereits existiert
 
-                             if(existingShape != sceneshape.end()){
+                             if(existingShape != sceneshapes.end()){
 
                                  std::shared_ptr<Shape> tmpshape = existingShape->second;
                                  scene.composite_ -> addShape(tmpshape);
@@ -115,14 +118,14 @@
                     unsigned int vecSize = 0;
                     Lightsource light;
 
-                    ss<<light.name_;
-                    ss<<light.position_.x;
-                    ss<<light.position_.y;
-                    ss<<light.position_.z;
-                    ss<<light.lightcol_.r;
-                    ss<<light.lightcol_g;
-                    ss<<light.lightcol_b;
-                    ss<<light.ip_;
+                    ss>>light.name_;
+                    ss>>light.position_.x;
+                    ss>>light.position_.y;
+                    ss>>light.position_.z;
+                    ss>>light.lightcol_.r;
+                    ss>>light.lightcol_.g;
+                    ss>>light.lightcol_.b;
+                    ss>>light.ip_;
 
                     scene.light_.push_back(light);
                     ++ vecSize;
@@ -132,22 +135,22 @@
 
                 if (keyword == "camera") {
                     std::string cname;
-                    double fox_x;
+                    float fox_x;
                     glm::vec3 pos;
                     glm::vec3 dir;
                     glm::vec3 up;
 
-                    ss<<cname;
-                    ss<<fox_x;
-                    ss<<pos.x;
-                    ss<<pos.y;
-                    ss<<pos.z;
-                    ss<<dir.x;
-                    ss<<dir.y;
-                    ss<<dir.z;
-                    ss<<up.x;
-                    ss<<up.y;
-                    ss<<up.z;
+                    ss>>cname;
+                    ss>>fox_x;
+                    ss>>pos.x;
+                    ss>>pos.y;
+                    ss>>pos.z;
+                    ss>>dir.x;
+                    ss>>dir.y;
+                    ss>>dir.z;
+                    ss>>up.x;
+                    ss>>up.y;
+                    ss>>up.z;
 
                     scene.cam_ = Camera {cname, fox_x, pos, dir, up};
 
@@ -157,23 +160,35 @@
             if (keyword == "ambient") {
                 Color ambient;
 
-                ss<<ambient.r;
-                ss<<ambient.g;
-                ss<<ambient.b;
+                ss>>ambient.r;
+                ss>>ambient.g;
+                ss>>ambient.b;
 
                 scene.ia_ = ambient;
 
             }
-
+    
             if (keyword == "render") {
+
+                std::string camName;
+                ss >> camName;
+
+                // checks whether camera exists so the frame can be rendered 
+                 if (camName == scene.cam_.name_) {
+
+                     ss>>scene.fileOut_;
+                     ss>>scene.width_;
+                     ss>>scene.height_;
+
+                }
 
             }
 
         file.close(); 
        }
      }
-     //return scene;
- }*/
+     return scene;
+ }
 
 
 
