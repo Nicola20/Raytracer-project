@@ -5,6 +5,8 @@
 #include <glm/vec3.hpp>
 #include <memory>
 
+class Shape;
+
 struct Hit {
 
     Hit():
@@ -14,7 +16,7 @@ struct Hit {
         intersection_{},
         closest_shape_{nullptr} {}
 
-    Hit(bool hit, float distance, glm::vec3 const& normalvec, glm::vec3 const& intersect, std::shared_ptr<Shape> const& clos):
+    Hit(bool hit, float distance, glm::vec3 const& normalvec, glm::vec3 const& intersect, Shape* const& clos):
         hit_{hit},
         distance_{distance},
         normal_{normalvec},
@@ -33,7 +35,8 @@ struct Hit {
     float distance_;
     glm::vec3 normal_;
     glm::vec3 intersection_;
-    std::shared_ptr<Shape> closest_shape_;
+    Shape* closest_shape_;
 
 
 };
+#endif
