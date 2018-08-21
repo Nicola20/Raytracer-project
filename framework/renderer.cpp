@@ -37,7 +37,7 @@ void Renderer::render()
       } else {
         p.color = Color(1.0, 0.0, float(y)/width_);
       }*/
-      p.color = raycast(pixelRay);
+      p.color = raytrace(pixelRay);  //hier zu tmpcollor = raytrace und dann p.color mit tonemappingformel berechnen
 
       write(p);
     }
@@ -45,7 +45,42 @@ void Renderer::render()
   ppm_.save(scene_.fileOut_);
 }
 
-Color Renderer::raycast(Ray const& ray) {
+Color Renderer::raytrace(Ray const& ray) {
+
+  Hit closest = scene_.composite_ -> intersect(ray);
+
+  if (closest.hit_) {
+    Color clr;
+
+    ambientLight(clr, closest.shape_.material() -> ka_);
+
+    for (auto& l: scene_.light_){
+       pointLight(clr, l, ray, closest);
+    }
+
+
+
+  }
+
+}
+
+Color Renderer::ambientLight(Color & clr, Color const& ka){
+
+   return clr +=(scene_.ambient_)*ka;
+}
+
+Color Renderer::pointLight(Color const& col, std::shared_ptr<Light> light, Ray const& ray, Hit const& hit){
+  bool lightHit = true;
+  glm::vec3 vecToLight = glm::normalize(light.position_ - hit.intersection_); //vector zur Lichtquelle
+
+}
+
+Color Renderer::diffuse(){
+
+}
+
+Color Renderer::spekular(){
+
 
 }
 

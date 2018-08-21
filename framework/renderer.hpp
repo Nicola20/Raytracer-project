@@ -28,7 +28,10 @@ class Renderer
 public:
   Renderer(unsigned w, unsigned h, std::string const& file);
   Renderer (Scene const& scene);
-  Color raycast(Ray const& ray);
+  Color raytrace(Ray const& ray);
+  Color pointLight(Color const& col, std::shared_ptr<Light> light, Ray const& ray, Hit const& hit);
+  Color diffuse();
+  Color spekular();
 
   void render();
   void write(Pixel const& p);
