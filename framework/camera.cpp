@@ -1,5 +1,4 @@
 #include "camera.hpp"
-#include "ray.hpp"
 #include <glm/vec4.hpp>
 
 Camera::Camera ():
@@ -26,8 +25,10 @@ Camera::Camera(std::string const& name, float fox_x, glm::vec3 const& eye, glm::
     upVector_{up} {}
 
 
-Ray calculateRay(unsigned x, unsigned y) {
-	
+Ray Camera::calculateCamRay(int x, int y, unsigned int width, unsigned int height) {
+    glm::vec3 viewpoint{(float(x)/(float(width)))-0.5f, (float(y)/(float(height)))- 0.5f, (-1.0f*(0.5f/tan(fox_x_/2)))};
+    Ray camRay {eyePos_,viewpoint};
+    return camRay;
 }
 
  std::ostream& Camera::print(std::ostream& os) const {

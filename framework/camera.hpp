@@ -1,6 +1,7 @@
 #ifndef CAMERA_HPP
 #define CAMERA_HPP
 
+#include "ray.hpp"
 #include <string>
 #include <glm/vec3.hpp>
 #include <iostream>
@@ -11,6 +12,7 @@ struct Camera {
     Camera(std::string const& name, float fox_x);
     Camera(std::string const& name, float fox_x, glm::vec3 const& eye, glm::vec3 const& dir, glm::vec3 const& up);
     std::ostream& print (std::ostream& os) const;
+    Ray calculateCamRay(int x, int y, unsigned int width, unsigned int height);
 
 
     std::string name_;
