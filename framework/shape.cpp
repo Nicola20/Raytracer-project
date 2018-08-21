@@ -21,6 +21,10 @@ std::string Shape::getName() const {
     return name_;
 }
 
+std::shared_ptr<Material> Shape::getMaterial() const {
+    return material_;
+}
+
 
  std::ostream& Shape::print(std::ostream& os) const{
     os << "Name: " << name_ << ", \n" << "Material: " << *material_<< "\n";

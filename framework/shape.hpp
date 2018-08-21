@@ -16,6 +16,7 @@ class Shape {
     Shape ();
     virtual std::ostream& print(std::ostream& os) const;
     std::string getName() const;
+    std::shared_ptr<Material> getMaterial() const;
     virtual ~Shape();
     //~Shape();
     virtual Hit intersect (Ray const& ray) = 0;
