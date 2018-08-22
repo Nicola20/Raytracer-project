@@ -29,9 +29,9 @@ public:
   Renderer(unsigned w, unsigned h, std::string const& file);
   Renderer (Scene const& scene);
   Color raytrace(Ray const& ray);
-  Color pointLight(Color const& col, std::shared_ptr<Light> light, Ray const& ray, Hit const& hit);
-  Color diffuse(Color & clr, Hit const& hit, std::shared_ptr<Light> light, glm::vec3 const& vecLight);
-  Color spekular();
+  Color pointLight(Color const& col, std::shared_ptr<Lightsource> light, Ray const& ray, Hit const& hit);
+  Color diffuse(Color & clr, Hit const& hit, std::shared_ptr<Lightsource> light, glm::vec3 const& vecLight);
+  Color spekular(Color & clr, Hit const& hit, std::shared_ptr<Lightsource> light, glm::vec3 const& vecLight);
 
   void render();
   void write(Pixel const& p);

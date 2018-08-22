@@ -8,6 +8,10 @@
 // -----------------------------------------------------------------------------
 
 #include "renderer.hpp"
+#define _USE_MATH_DEFINES
+#include <math.h>
+#include <string>
+
 /*
 Renderer::Renderer(unsigned w, unsigned h, std::string const& file)
   : width_(w)
@@ -67,7 +71,7 @@ Color Renderer::ambientLight(Color & clr, Color const& ka){
    return clr +=(scene_.ambient_)*ka;
 }
 
-Color Renderer::pointLight(Color const& col, std::shared_ptr<Light> light, Ray const& ray, Hit const& hit){
+Color Renderer::pointLight(Color const& col, std::shared_ptr<Lightsource> light, Ray const& ray, Hit const& hit){
   bool lightHit = true;
   glm::vec3 vecToLight = glm::normalize(light.position_ - hit.intersection_); //vector zur Lichtquelle
 
@@ -84,14 +88,23 @@ Color Renderer::pointLight(Color const& col, std::shared_ptr<Light> light, Ray c
 
 }
 
-Color Renderer::diffuse(Color & clr, Hit const& hit, std::shared_ptr<Light> light, glm::vec3 const& vecLight){
+Color Renderer::diffuse(Color & clr, Hit const& hit, std::shared_ptr<Lightsource> light, glm::vec3 const& vecLight){
 
-   return clr += (light.ip_)*(hit.hit.shape_.material() -> kd_)*(glm::dot(hit.normal_, vecLight)) //auch mit rayToLight.direction möglich
+	return clr += (light.ip_)*(hit.closest_shape_.material()->kd_)*(glm::dot(hit.normal_, vecLight)); //auch mit rayToLight.direction möglich
 }
 
-Color Renderer::spekular(Color & clr,){
-
-
+Color Renderer::spekular(Color & clr, Hit const& hit, std::shared_ptr<Lightsource> light, glm::vec3 const& vecLight) {
+	//Cs = ks * Ie * Os *cos(R, A)
+	//return clr += (light.ip_)*(hit.closest_shape_.getMaterial() -> ks_)*
+	float m = hit.closest_shape_->getMaterial()->m_;
+	glm::vec3 v = glm::normalize(scene_.cam_->eyeposition_ - hit.intersection_);
+	glm::vec3 r = glm::dot(hit.normal_, vecLight)*2.0f*hit.normal_-vecLight;
+	float cos = pow(glm::dot(v, r), m);
+	float ip = light->ip_;//color optional, change type to Color
+	float m_pi = (m + 2) / (2 * M_PI);
+	Color ks = hit.closest_shape_->getMaterial()->ks_;
+	return ip * cos * m_pi * ks;
+	
 }
 
 void Renderer::write(Pixel const& p)
