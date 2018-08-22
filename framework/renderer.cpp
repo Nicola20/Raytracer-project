@@ -57,10 +57,8 @@ Color Renderer::raytrace(Ray const& ray) {
     for (auto& l: scene_.light_){
        pointLight(clr, l, ray, closest);
     }
-
-
-
   }
+  return clr; //Farbberechnung, die sich durch die Funktionen aufaddiert hat
 
 }
 
@@ -73,13 +71,25 @@ Color Renderer::pointLight(Color const& col, std::shared_ptr<Light> light, Ray c
   bool lightHit = true;
   glm::vec3 vecToLight = glm::normalize(light.position_ - hit.intersection_); //vector zur Lichtquelle
 
+  Ray rayToLight {hit.intersection_*0.001f, vecToLight}; //neuer Ray zur Punktichtquelle; Frage warum mit 0,001 verrechnen?
+  Hit newHit = scene_.composite_ ->intersect(rayToLight); //hit mit geringster Distanz wir zurückgegeben
+
+  float distance = glm::length(hit.intersection_ - light.position_);
+
+  if(newHit.distance_ > distance) { //distance nur dann größer, wenn vorher kein Objekt getroffen wurde
+    //Berechnung von diffus und spekular
+    diffuse(clr, hit, light, vecToLight);
+    spekular(clr,);
+  }
+
 }
 
-Color Renderer::diffuse(){
+Color Renderer::diffuse(Color & clr, Hit const& hit, std::shared_ptr<Light> light, glm::vec3 const& vecLight){
 
+   return clr += (light.ip_)*(hit.hit.shape_.material() -> kd_)*(glm::dot(hit.normal_, vecLight)) //auch mit rayToLight.direction möglich
 }
 
-Color Renderer::spekular(){
+Color Renderer::spekular(Color & clr,){
 
 
 }

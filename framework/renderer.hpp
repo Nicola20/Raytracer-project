@@ -30,7 +30,7 @@ public:
   Renderer (Scene const& scene);
   Color raytrace(Ray const& ray);
   Color pointLight(Color const& col, std::shared_ptr<Light> light, Ray const& ray, Hit const& hit);
-  Color diffuse();
+  Color diffuse(Color & clr, Hit const& hit, std::shared_ptr<Light> light, glm::vec3 const& vecLight);
   Color spekular();
 
   void render();
