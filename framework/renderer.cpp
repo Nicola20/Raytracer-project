@@ -56,14 +56,17 @@ Color Renderer::raytrace(Ray const& ray) {
   if (closest.hit_) {
     Color clr;
 
-    ambientLight(clr, closest.shape_.material() -> ka_);
+    ambientLight(clr, closest.closest_shape_.material() -> ka_);
 
     for (auto& l: scene_.light_){
        pointLight(clr, l, ray, closest);
     }
+    
+  } else {
+     clr = Color {0.0f, 0.0f, 0.4f}; //Hier Farbwert für Hintergrund setzen: dunkelblau
   }
-  return clr; //Farbberechnung, die sich durch die Funktionen aufaddiert hat
 
+  return clr; //Farbberechnung, die sich durch die Funktionen aufaddiert hat
 }
 
 Color Renderer::ambientLight(Color & clr, Color const& ka){
@@ -83,14 +86,18 @@ Color Renderer::pointLight(Color const& col, std::shared_ptr<Lightsource> light,
   if(newHit.distance_ > distance) { //distance nur dann größer, wenn vorher kein Objekt getroffen wurde
     //Berechnung von diffus und spekular
     diffuse(clr, hit, light, vecToLight);
-    spekular(clr,);
+    spekular(clr,hit, light, vecToLight);
   }
 
 }
 
 Color Renderer::diffuse(Color & clr, Hit const& hit, std::shared_ptr<Lightsource> light, glm::vec3 const& vecLight){
 
-	return clr += (light.ip_)*(hit.closest_shape_.material()->kd_)*(glm::dot(hit.normal_, vecLight)); //auch mit rayToLight.direction möglich
+  Color ip = (light -> lightcol_ * light -> ip_);
+  Color kd = hit.closest_shape_.material()->kd_;
+  float vecPro = glm::dot(hit.normal_, vecLight);
+
+	return (clr += ip*kd*vecPro); //auch mit rayToLight.direction möglich
 }
 
 Color Renderer::spekular(Color & clr, Hit const& hit, std::shared_ptr<Lightsource> light, glm::vec3 const& vecLight) {
@@ -98,12 +105,12 @@ Color Renderer::spekular(Color & clr, Hit const& hit, std::shared_ptr<Lightsourc
 	//return clr += (light.ip_)*(hit.closest_shape_.getMaterial() -> ks_)*
 	float m = hit.closest_shape_->getMaterial()->m_;
 	glm::vec3 v = glm::normalize(scene_.cam_->eyeposition_ - hit.intersection_);
-	glm::vec3 r = glm::dot(hit.normal_, vecLight)*2.0f*hit.normal_-vecLight;
+	glm::vec3 r = glm::normalize(glm::dot(hit.normal_, vecLight)*2.0f*hit.normal_-vecLight);
 	float cos = pow(glm::dot(v, r), m);
-	float ip = light->ip_;//color optional, change type to Color
-	float m_pi = (m + 2) / (2 * M_PI);
+	Color ip = light->ip_*light->lightcol_;        //steht so auf dem Aufgabenblatt
+	//float m_pi = (m + 2) / (2 * M_PI);
 	Color ks = hit.closest_shape_->getMaterial()->ks_;
-	return ip * cos * m_pi * ks;
+	return clr += ip * cos * /*m_pi * */ks;
 	
 }
 
