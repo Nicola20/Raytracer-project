@@ -99,6 +99,12 @@ struct Color
 	  return tmp;
   }
 
+  friend Color operator*(Color const& a, float b) {
+    auto tmp(a);
+    tmp *=b;
+    return tmp;
+  }
+
   float r;
   float g;
   float b;
