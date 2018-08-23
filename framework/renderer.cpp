@@ -41,7 +41,9 @@ void Renderer::render()
       } else {
         p.color = Color(1.0, 0.0, float(y)/width_);
       }*/
-      p.color = raytrace(pixelRay);  //hier zu tmpcollor = raytrace und dann p.color mit tonemappingformel berechnen
+      Color tmp = raytrace(pixelRay);  //hier zu tmpcollor = raytrace und dann p.color mit tonemappingformel berechnen
+
+      p.color = tonemapping(tmp);
 
       write(p);
     }
@@ -49,17 +51,18 @@ void Renderer::render()
   ppm_.save(scene_.fileOut_);
 }
 
+
+
 Color Renderer::raytrace(Ray const& ray) {
 
   Hit closest = scene_.composite_ -> intersect(ray);
+  Color clr;
 
   if (closest.hit_) {
-    Color clr;
+    ambientLight(clr, closest.closest_shape_->getMaterial() -> ka_);
 
-    ambientLight(clr, closest.closest_shape_.material() -> ka_);
-
-    for (auto& l: scene_.light_){
-       pointLight(clr, l, ray, closest);
+    for (auto & l: scene_.light_){
+        pointLight(clr, l, ray, closest);
     }
     
   } else {
@@ -69,19 +72,22 @@ Color Renderer::raytrace(Ray const& ray) {
   return clr; //Farbberechnung, die sich durch die Funktionen aufaddiert hat
 }
 
-Color Renderer::ambientLight(Color & clr, Color const& ka){
 
-   return clr +=(scene_.ambient_)*ka;
+void Renderer::ambientLight(Color & clr, Color const& ka){
+
+   clr +=(scene_.ambient_)*ka;
 }
 
-Color Renderer::pointLight(Color const& col, std::shared_ptr<Lightsource> light, Ray const& ray, Hit const& hit){
+
+
+void Renderer::pointLight(Color & clr, std::shared_ptr<Lightsource> const& light, Ray const& ray, Hit const& hit){
   bool lightHit = true;
-  glm::vec3 vecToLight = glm::normalize(light.position_ - hit.intersection_); //vector zur Lichtquelle
+  glm::vec3 vecToLight = glm::normalize(light->position_ - hit.intersection_); //vector zur Lichtquelle
 
   Ray rayToLight {hit.intersection_*0.001f, vecToLight}; //neuer Ray zur Punktichtquelle; Frage warum mit 0,001 verrechnen?
   Hit newHit = scene_.composite_ ->intersect(rayToLight); //hit mit geringster Distanz wir zurückgegeben
 
-  float distance = glm::length(hit.intersection_ - light.position_);
+  float distance = glm::length(hit.intersection_ - light->position_);
 
   if(newHit.distance_ > distance) { //distance nur dann größer, wenn vorher kein Objekt getroffen wurde
     //Berechnung von diffus und spekular
@@ -91,28 +97,48 @@ Color Renderer::pointLight(Color const& col, std::shared_ptr<Lightsource> light,
 
 }
 
-Color Renderer::diffuse(Color & clr, Hit const& hit, std::shared_ptr<Lightsource> light, glm::vec3 const& vecLight){
 
-  Color ip = (light -> lightcol_ * light -> ip_);
-  Color kd = hit.closest_shape_.material()->kd_;
+
+void Renderer::diffuse(Color & clr, Hit const& hit, std::shared_ptr<Lightsource> const& light, glm::vec3 const& vecLight){
+
+  Color ip = (light -> lightcol_ * float(light -> ip_));
+  Color kd = hit.closest_shape_->getMaterial()->kd_;
   float vecPro = glm::dot(hit.normal_, vecLight);
 
-	return (clr += ip*kd*vecPro); //auch mit rayToLight.direction möglich
+	clr += ip*kd*vecPro; //auch mit rayToLight.direction möglich
 }
 
-Color Renderer::spekular(Color & clr, Hit const& hit, std::shared_ptr<Lightsource> light, glm::vec3 const& vecLight) {
+
+void Renderer::spekular(Color & clr, Hit const& hit, std::shared_ptr<Lightsource> const& light, glm::vec3 const& vecLight) {
 	//Cs = ks * Ie * Os *cos(R, A)
 	//return clr += (light.ip_)*(hit.closest_shape_.getMaterial() -> ks_)*
 	float m = hit.closest_shape_->getMaterial()->m_;
-	glm::vec3 v = glm::normalize(scene_.cam_->eyeposition_ - hit.intersection_);
+	glm::vec3 v = glm::normalize(scene_.cam_.eyePos_ - hit.intersection_);
 	glm::vec3 r = glm::normalize(glm::dot(hit.normal_, vecLight)*2.0f*hit.normal_-vecLight);
 	float cos = pow(glm::dot(v, r), m);
-	Color ip = light->ip_*light->lightcol_;        //steht so auf dem Aufgabenblatt
+	Color ip = light->lightcol_ * float(light->ip_);        //steht so auf dem Aufgabenblatt
 	//float m_pi = (m + 2) / (2 * M_PI);
 	Color ks = hit.closest_shape_->getMaterial()->ks_;
-	return clr += ip * cos * /*m_pi * */ks;
+
+	clr += ip * cos * /*m_pi * */ks;
 	
 }
+
+
+
+Color Renderer::tonemapping(Color const& clr) {
+
+  float gamma = 0.5f;
+  float a = 1.0f;
+  Color final;
+  final.r = a*pow(clr.r, gamma);
+  final.g = a*pow(clr.g, gamma);
+  final.b = a*pow(clr.b, gamma);
+
+  return final;
+}
+
+
 
 void Renderer::write(Pixel const& p)
 {

@@ -20,8 +20,10 @@
 #include "ppmwriter.hpp"
 #include "ray.hpp"
 #include "sdfloader.hpp"
+#include "hit.hpp"
 #include <string>
 #include <glm/glm.hpp>
+#include <memory>
 
 class Renderer
 {
@@ -29,9 +31,11 @@ public:
   Renderer(unsigned w, unsigned h, std::string const& file);
   Renderer (Scene const& scene);
   Color raytrace(Ray const& ray);
-  Color pointLight(Color const& col, std::shared_ptr<Lightsource> light, Ray const& ray, Hit const& hit);
-  Color diffuse(Color & clr, Hit const& hit, std::shared_ptr<Lightsource> light, glm::vec3 const& vecLight);
-  Color spekular(Color & clr, Hit const& hit, std::shared_ptr<Lightsource> light, glm::vec3 const& vecLight);
+  void ambientLight(Color & clr, Color const& ka);
+  void pointLight(Color & clr, std::shared_ptr<Lightsource> const& light, Ray const& ray, Hit const& hit);
+  void diffuse(Color & clr, Hit const& hit, std::shared_ptr<Lightsource> const& light, glm::vec3 const& vecLight);
+  void spekular(Color & clr, Hit const& hit, std::shared_ptr<Lightsource> const& light, glm::vec3 const& vecLight);
+  Color tonemapping(Color const& clr);
 
   void render();
   void write(Pixel const& p);
