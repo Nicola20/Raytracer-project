@@ -15,12 +15,12 @@
 
 struct Scene {  //brauche hier wahrscheinlich n default-Konstruktor, da etwas anscheinend ill- formatted ist Problem liegt wahrscheinlich in composite
    
-    Color ia_; //Ambient
+    Color ambient_; //Ambient
     std::map<std::string, std::shared_ptr<Material>> map_mat;
     float width_;
     float height_;
     std::shared_ptr<Composite> composite_;
-    std::vector<Lightsource> light_;
+    std::vector<std::shared_ptr<Lightsource>> light_;
     Camera cam_;
     std::string fileOut_;
 

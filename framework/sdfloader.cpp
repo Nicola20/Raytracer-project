@@ -116,17 +116,21 @@
                 if (keyword == "light") {
 
                     unsigned int vecSize = 0;
-                    Lightsource light;
+                    std::string lightname;
+                    glm::vec3 pos;
+                    Color lightcol;
+                    int brideness;
 
-                    ss>>light.name_;
-                    ss>>light.position_.x;
-                    ss>>light.position_.y;
-                    ss>>light.position_.z;
-                    ss>>light.lightcol_.r;
-                    ss>>light.lightcol_.g;
-                    ss>>light.lightcol_.b;
-                    ss>>light.ip_;
+                    ss>>lightname;
+                    ss>>pos.x;
+                    ss>>pos.y;
+                    ss>>pos.z;
+                    ss>>lightcol.r;
+                    ss>>lightcol.g;
+                    ss>>lightcol.b;
+                    ss>>brideness;
 
+                    auto light = std::make_shared<Lightsource>(lightname, pos, lightcol, brideness);
                     scene.light_.push_back(light);
                     ++ vecSize;
 
@@ -164,7 +168,7 @@
                 ss>>ambient.g;
                 ss>>ambient.b;
 
-                scene.ia_ = ambient;
+                scene.ambient_ = ambient;
 
             }
     
