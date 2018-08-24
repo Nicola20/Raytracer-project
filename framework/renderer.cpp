@@ -27,7 +27,7 @@ Renderer::Renderer(Scene const& scene):
   ppm_{scene.width_, scene.height_} {}
 
 
-void Renderer::render(Scene const& scene)
+void Renderer::render()
 {
   //std::size_t const checker_pattern_size = 20;
 

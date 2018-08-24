@@ -15,7 +15,7 @@
 #include "camera.hpp"
 #include "lightsource.hpp"
 #include "shape.hpp"
-#include "scene.hpp"
+//#include "scene.hpp"
 #include "composite.hpp"
 #include "ppmwriter.hpp"
 #include "ray.hpp"
@@ -37,7 +37,7 @@ public:
   void spekular(Color & clr, Hit const& hit, std::shared_ptr<Lightsource> const& light, glm::vec3 const& vecLight);
   Color tonemapping(Color const& clr);
 
-  void render(Scene const& scene);
+  void render();
   void write(Pixel const& p);
 
   inline std::vector<Color> const& color_buffer() const
