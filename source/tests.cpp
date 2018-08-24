@@ -38,7 +38,7 @@ TEST_CASE ("box_default_constructor","[default]")
   REQUIRE (b1.getMin().z == 0);
   std::cout << "--------------------------------------------- \n";
 }*/
- 
+/* 
 TEST_CASE ("box_constructor","[custom_constructor]")
 {
   std::cout << "--------------------------------------------- \n";
@@ -65,7 +65,7 @@ TEST_CASE ("sphere_constructor","[sphere_constructor]")
   REQUIRE (s1.getCenter().z == 1);
   REQUIRE (s1.getRadius() == 4.0);
   std::cout << "--------------------------------------------- \n";
-}
+}*/
 /*
 TEST_CASE ("sphere_area","[area]")
 { 
@@ -140,7 +140,7 @@ TEST_CASE ("box_getter_shape","[shape_getter]")
   std::cout << "--------------------------------------------- \n";
 } */
 
-
+/*
 TEST_CASE ("sphere_print","[print]")
 { 
   std::cout << "--------------------------------------------- \n";
@@ -159,7 +159,7 @@ TEST_CASE ("box_print","[print]")
   Box boxie {glm::vec3{1,1,1}, glm::vec3{2,5,7},"francine", m1};
   std::cout << boxie;
   std::cout << "--------------------------------------------- \n";
-} 
+} */
 /*
 TEST_CASE ("intersect_ray_sphere","[intersect]")  
 {
@@ -193,7 +193,7 @@ TEST_CASE ("intersect_ray_sphere","[intersect]")
 
     std::cout << "--------------------------------------------- \n";
 } */ 
-
+/*
 TEST_CASE ("ctor_and_dtor", "[5.8")
 {
     std::cout << "--------------------------------------------- \n";
@@ -210,7 +210,7 @@ TEST_CASE ("ctor_and_dtor", "[5.8")
     delete s1;
     delete s2;
     std::cout << "--------------------------------------------- \n";
-}
+}*/
 /*
 TEST_CASE("Box_intersect", "[intersect]")
 {
@@ -235,18 +235,21 @@ TEST_CASE("Box_intersect", "[intersect]")
 
 
 }*/
-/*
+
 TEST_CASE("Scene test") {
-	std::shared_ptr<Scene> scene = std::make_shared<Scene>();
-	SDFFileLoader("/home/nicola/Dokumente/Programmiersprachen/ProPra Abgabe 6/programmiersprachen-raytracer/source/example.sdf",*scene);
-	std::cout<<"Search result:"<<*materialMapSearch("red",*scene)<<"\n";
-	REQUIRE(materialMapSearch("black",*scene) == nullptr);
-} */
+	//std::shared_ptr<Scene> scene = std::make_shared<Scene>();
+  SDFLoader loader;
+	Scene scene = loader.loadFile("/home/nicola/Schreibtisch/Raytracer-project/source/example.sdf");
+  
+	//std::cout<<"Search result:"<<*materialMapSearch("red",scene)<<"\n";
+	//REQUIRE(materialMapSearch("black",scene) == nullptr);
+  std::cout<< scene;
+} 
 
 
 
 //Tests für den Raytracer
-
+/*
 TEST_CASE ("light_print","[print]")
 { 
   std::cout << "--------------------------------------------- \n";
@@ -374,7 +377,7 @@ TEST_CASE ("composite_intersection","[intersection]")
   REQUIRE(hitbox.distance_ > hitComp.distance_);
   std::cout << comp;
   std::cout << "--------------------------------------------- \n";
-}
+}*/
 
 
 int main(int argc, char *argv[])
