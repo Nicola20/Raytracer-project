@@ -1,5 +1,5 @@
-#ifndef SDFFILELOADER_HPP
-#define SDFFILELOADER_HPP
+#ifndef SDFLOADER_HPP
+#define SDFLOADER_HPP
 
 #include "scene.hpp"
 #include <string>
@@ -9,8 +9,10 @@
 #include <sstream>
 
 struct SDFLoader {
-    
-    Scene loadFile(std::string const& fileIn);
+   //nothing to put here 
     
 };
+
+Scene loadFile(std::string const& fileIn);
+
 #endif
