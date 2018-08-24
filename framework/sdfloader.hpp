@@ -8,11 +8,13 @@
 #include <iostream>
 #include <sstream>
 
-struct SDFLoader {
-   //nothing to put here 
+class SDFLoader {
+   //nothing to put here
+   public: 
+   Scene loadFile(std::string const& fileIn);
     
 };
 
-Scene loadFile(std::string const& fileIn);
+//std::shared_ptr<Material> materialMapSearch (std::string name, Scene& scene);
 
 #endif

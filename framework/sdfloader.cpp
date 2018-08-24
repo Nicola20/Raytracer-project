@@ -3,13 +3,14 @@
 #include <memory>
 
 
- Scene loadFile(std::string const& fileIn) {  
+ Scene SDFLoader::loadFile(std::string const& fileIn) {  
 
      std::ifstream file;
-     Scene scene;
-     std::map<std::string, std::shared_ptr<Shape>> sceneshapes;
      std::string line;
      file.open(fileIn);
+     Scene scene;
+     std::map<std::string, std::shared_ptr<Shape>> sceneshapes;
+     //file.open(fileIn);
 
      if (file.is_open()){
             while(std::getline(file,line)){     //while file has lines
@@ -41,13 +42,13 @@
                     ss>> mat.m_;
                     
                     std::shared_ptr<Material> matPoint = std::make_shared<Material>(mat);
-                    //scene.map_mat.insert(std::pair<std::string,std::shared_ptr<Material>>(matPoint->name,matPoint));
+                    scene.map_mat.insert(std::pair<std::string,std::shared_ptr<Material>>(matPoint->name,matPoint));
 
-                    scene.map_mat[mat.name] = matPoint;
+                    //scene.map_mat[mat.name] = matPoint;
 
                 }
                 
-                if(keyword == "shape"){
+                else if(keyword == "shape"){
                     //ss<<line;     
                     ss>>keyword;
 
@@ -72,7 +73,8 @@
                         auto box = std::make_shared<Box>(bmin, bmax, bname, boxMat);
                         sceneshapes[bname] = box; //add to container so that you can find it afterwards for composite
                     }
-                    if(keyword == "sphere"){ 
+
+                    else if(keyword == "sphere"){ 
                         std::string sname;
                         glm::vec3 scenter;
                         float sradius;
@@ -90,7 +92,7 @@
                         sceneshapes[sname] = sphere;
                     }
 
-                    if (keyword == "composite") {
+                    else if (keyword == "composite") {
                         std::string compositeName;
                         std::string newShape;
 
@@ -111,9 +113,9 @@
                         }
                     }
                     
-                } //shape geschlossen
+                }  //shape geschlossen
 
-                if (keyword == "light") {
+                else if (keyword == "light") {
 
                     unsigned int vecSize = 0;
                     std::string lightname;
@@ -137,7 +139,7 @@
 
                 }
 
-                if (keyword == "camera") {
+               else if (keyword == "camera") {
                     std::string cname;
                     float fox_x;
                     glm::vec3 pos;
@@ -172,7 +174,7 @@
 
             }
     
-            if (keyword == "render") {
+            else if (keyword == "render") {
 
                 std::string camName;
                 ss >> camName;
@@ -184,10 +186,13 @@
                      ss>>scene.width_;
                      ss>>scene.height_;
 
+                std::cout<<"Camera: "<< scene.cam_.name_ << "\n" << "FileOut: " << scene.fileOut_ << "\n"
+                        << "Picture: " << scene.width_ << " x " << scene.height_<<"\n";
+                } else {
+                    std::cout<< "Error occured. Camera could not be found"<<std::endl;
                 }
 
             }
-
         file.close(); 
        }
      }
