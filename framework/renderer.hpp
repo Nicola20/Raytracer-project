@@ -37,7 +37,7 @@ public:
   void spekular(Color & clr, Hit const& hit, std::shared_ptr<Lightsource> const& light, glm::vec3 const& vecLight);
   Color tonemapping(Color const& clr);
 
-  void render();
+  void render(Scene const& scene);
   void write(Pixel const& p);
 
   inline std::vector<Color> const& color_buffer() const
