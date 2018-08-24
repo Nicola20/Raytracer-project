@@ -8,12 +8,25 @@
 #include "composite.hpp"
 #include "lightsource.hpp"
 #include "camera.hpp"
+#include "material.hpp"
 #include <string>
 #include <vector>
 #include <map>
 
 
-struct Scene {  //brauche hier wahrscheinlich n default-Konstruktor, da etwas anscheinend ill- formatted ist Problem liegt wahrscheinlich in composite
+struct Scene {
+
+std::ostream& print (std::ostream& os) const{
+        os << "Ambient: (" << ambient_.r<< ", "<< ambient_.g<< ", "<<ambient_.b<<" ) \n"
+        <<"Frame: (" << width_ << " x "<< height_ <<") \n"
+        <<"Camera: " << cam_.name_ << "\n"
+        <<"File: " << fileOut_ <<"\n";
+    return os;
+} 
+
+ friend std::ostream& operator<<(std::ostream& os, Scene const& s){
+    return s.print(os);
+}
    
     Color ambient_; //Ambient
     std::map<std::string, std::shared_ptr<Material>> map_mat;
