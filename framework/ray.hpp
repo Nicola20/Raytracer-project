@@ -19,15 +19,15 @@ struct Ray {
     glm::vec3 origin_; //= {0.0f, 0.0f, 0.0f};
     glm::vec3 direction_; //= {0.0f, 0.0f, -1.0f};
 
-	Ray transformRay(glm::mat4 const& mat) {
+	Ray transformRay(glm::mat4 const& mat, Ray const& ray) { // hier noch ray eingefügt
 
-		glm::vec4 origin_o{ origin_,1.0f };
-		glm::vec4 direction_o{ direction_, 0.0f };
+		glm::vec4 origin_o{ ray.origin_,1.0f };
+		glm::vec4 direction_o{ ray.direction_, 0.0f };
 
 		glm::vec4 origin_homogen = mat * origin_o;
 		glm::vec4 direction_homogen = mat * direction_o;
 
-		glm::vec3 origin_i(origin_homogen);
+		glm::vec3 origin_i(origin_homogen);  // warum das hier? das ist doppelt gemoppelt
 		glm::vec3 direction_i(direction_homogen);
 
 		return Ray{ origin_i, direction_i };

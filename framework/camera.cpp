@@ -25,9 +25,13 @@ Camera::Camera(std::string const& name, float fox_x, glm::vec3 const& eye, glm::
     upVector_{up} {}
 
 
-Ray Camera::calculateCamRay(int x, int y, unsigned int width, unsigned int height) {
-    glm::vec3 viewpoint{(float(x)/(float(width)))-0.5f, (float(y)/(float(height)))- 0.5f, (-1.0f*(0.5f/tan(fox_x_/2)))};
-    Ray camRay {eyePos_,viewpoint};
+Ray Camera::calculateCamRay(int x, int y, unsigned int width, unsigned int height) const {
+    glm::vec3 direction{ ((float(x)/(float(width))) - 0.5) , 
+                         ((float(y)/(float(height)))- 0.5) , 
+                        (-1.0f*(0.5f/tan(fox_x_/2)))};
+
+    direction = glm::normalize(direction);
+    Ray camRay {eyePos_,direction};
     return camRay;
 }
 
