@@ -11,28 +11,36 @@
 int main(int argc, char* argv[])
 {
 
-  SDFLoader load;
-	
-	Scene scene = load.loadFile("/home/nicola/Schreibtisch/Raytracer-project/source/example.sdf");
-
   unsigned const image_width = 800;
   unsigned const image_height = 600;
-  //std::string const filename = "./checkerboard.ppm";
 
-  Renderer renderer(scene);
+  SDFLoader load;
+	Scene scn = load.loadFile("/home/nicola/Schreibtisch/Raytracer-project/source/example.sdf");
 
-  renderer.render();
+
+  //std::shared_ptr<Scene> scene = std::make_shared<Scene>();
+
+
+
+  std::string const filename = "./checkerboard.ppm";
+
+  Renderer renderer(image_width, image_height, filename);
+
+  renderer.render(scn);
+
   //create separate thread to see updates of pixels while rendering
- // std::thread render_thread([&renderer]() {renderer.render(scene);}); 
  //std::thread thr([&renderer]() { renderer.render(); });
 
   Window window(glm::ivec2(image_width, image_height));
 
+
+  std::vector<Color> color_buffer(image_width*image_height);
   while (!window.should_close()) {
     if (window.get_key(GLFW_KEY_ESCAPE) == GLFW_PRESS) {
       window.close();
     }
     window.show(renderer.color_buffer());
+    //window.show(color_buffer);
   }
 
   //thr.join();

@@ -7,4 +7,4 @@ define light lighty 1000 700 0 0.2 0.2 0.2 100
 define camera cam 45.0 0 0 0 0 0 -1 0 1 0 
 define shape composite root bbox ssphere
 ambient 0.1 0.1 0.1 
-render cam image . ppm 480 320
+render cam image.ppm 480 320

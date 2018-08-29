@@ -15,11 +15,11 @@
 #include "camera.hpp"
 #include "lightsource.hpp"
 #include "shape.hpp"
-//#include "scene.hpp"
 #include "composite.hpp"
 #include "ppmwriter.hpp"
 #include "ray.hpp"
-#include "sdfloader.hpp"
+//#include "sdfloader.hpp"
+#include "scene.hpp"
 #include "hit.hpp"
 #include <string>
 #include <glm/glm.hpp>
@@ -29,7 +29,6 @@ class Renderer
 {
 public:
   Renderer(unsigned w, unsigned h, std::string const& file);
-  Renderer (Scene const& scene);
   Color raytrace(Ray const& ray);
   void ambientLight(Color & clr, Color const& ka);
   void pointLight(Color & clr, std::shared_ptr<Lightsource> const& light, Ray const& ray, Hit const& hit);
@@ -37,7 +36,7 @@ public:
   void spekular(Color & clr, Hit const& hit, std::shared_ptr<Lightsource> const& light, glm::vec3 const& vecLight);
   Color tonemapping(Color const& clr);
 
-  void render();
+  void render(Scene const& scene);
   void write(Pixel const& p);
 
   inline std::vector<Color> const& color_buffer() const
@@ -46,11 +45,11 @@ public:
   }
 
 private:
-  //unsigned width_;
-  //unsigned height_;
+  unsigned width_;
+  unsigned height_;
   Scene scene_;
   std::vector<Color> color_buffer_;
-  //std::string filename_;
+  std::string filename_;
   PpmWriter ppm_;
 };
 

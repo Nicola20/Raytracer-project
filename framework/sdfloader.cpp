@@ -10,7 +10,6 @@
      file.open(fileIn);
      Scene scene;
      std::map<std::string, std::shared_ptr<Shape>> sceneshapes;
-     //file.open(fileIn);
 
      if (file.is_open()){
             while(std::getline(file,line)){     //while file has lines
@@ -42,13 +41,13 @@
                     ss>> mat.m_;
                     
                     std::shared_ptr<Material> matPoint = std::make_shared<Material>(mat);
-                    scene.map_mat.insert(std::pair<std::string,std::shared_ptr<Material>>(matPoint->name,matPoint));
+                    //scene.map_mat.insert(std::pair<std::string,std::shared_ptr<Material>>(matPoint->name,matPoint));
 
-                    //scene.map_mat[mat.name] = matPoint;
+                    scene.map_mat[mat.name] = matPoint;
 
                 }
                 
-                else if(keyword == "shape"){
+                if(keyword == "shape"){
                     //ss<<line;     
                     ss>>keyword;
 
@@ -68,13 +67,13 @@
                         ss>>mat;
 
 
-                        std::shared_ptr<Material> boxMat = (scene.map_mat.find(mat) -> second); 
+                        std::shared_ptr<Material> boxMat = scene.map_mat.find(mat)->second; //Fehler könnte hier bei find liegen 
 
                         auto box = std::make_shared<Box>(bmin, bmax, bname, boxMat);
                         sceneshapes[bname] = box; //add to container so that you can find it afterwards for composite
                     }
 
-                    else if(keyword == "sphere"){ 
+                    if(keyword == "sphere"){ 
                         std::string sname;
                         glm::vec3 scenter;
                         float sradius;
@@ -86,13 +85,13 @@
                         ss>> sradius;
                         ss>> mat;
                         
-                        std::shared_ptr<Material> sphereMat = (scene.map_mat.find(mat) -> second); 
+                        std::shared_ptr<Material> sphereMat = scene.map_mat.find(mat)->second; 
 
                         auto sphere = std::make_shared<Sphere>(scenter, sradius, sname, sphereMat);
                         sceneshapes[sname] = sphere;
                     }
 
-                    else if (keyword == "composite") {
+                    if (keyword == "composite") {
                         std::string compositeName;
                         std::string newShape;
 
@@ -115,7 +114,7 @@
                     
                 }  //shape geschlossen
 
-                else if (keyword == "light") {
+                if (keyword == "light") {
 
                     unsigned int vecSize = 0;
                     std::string lightname;
@@ -139,7 +138,7 @@
 
                 }
 
-               else if (keyword == "camera") {
+               if (keyword == "camera") {
                     std::string cname;
                     float fox_x;
                     glm::vec3 pos;
@@ -158,7 +157,9 @@
                     ss>>up.y;
                     ss>>up.z;
 
-                    scene.cam_ = Camera {cname, fox_x, pos, dir, up};
+                    Camera cam{cname, fox_x, pos, dir, up};
+
+                    scene.cam_ = cam;
 
                 }
             } //define geschlossen
@@ -174,7 +175,7 @@
 
             }
     
-            else if (keyword == "render") {
+            if (keyword == "render") {
 
                 std::string camName;
                 ss >> camName;
