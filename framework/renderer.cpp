@@ -58,7 +58,7 @@ void Renderer::render(Scene const& scene)
 
 Color Renderer::raytrace(Ray const& ray) {
 
-  Hit closest = scene_.composite_ -> intersect(ray);
+  Hit closest = scene_.composite_ -> intersect(ray); //muss hier dann jetzt mal gucken; bei composite stimmt was nicht
   Color clr;
 
   if (closest.hit_) {

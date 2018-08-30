@@ -12,6 +12,9 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <fstream>
+#include <iostream>
+#include <sstream>
 
 
 struct Scene {
@@ -27,12 +30,14 @@ std::ostream& print (std::ostream& os) const{
  friend std::ostream& operator<<(std::ostream& os, Scene const& s){
     return s.print(os);
 }
+
    
     Color ambient_; //Ambient
     std::map<std::string, std::shared_ptr<Material>> map_mat;
     float width_;
     float height_;
     std::shared_ptr<Composite> composite_;
+    //std::map<std::string, std::shared_ptr<Shape>> sceneshapes;
     std::vector<std::shared_ptr<Lightsource>> light_;
     Camera cam_;
     std::string fileOut_;

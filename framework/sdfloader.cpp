@@ -12,6 +12,7 @@
      std::map<std::string, std::shared_ptr<Shape>> sceneshapes;
 
      if (file.is_open()){
+         std::cout<<"File is open"<<std::endl;
             while(std::getline(file,line)){     //while file has lines
             std::stringstream ss;
             std::string keyword;
@@ -44,12 +45,14 @@
                     //scene.map_mat.insert(std::pair<std::string,std::shared_ptr<Material>>(matPoint->name,matPoint));
 
                     scene.map_mat[mat.name] = matPoint;
-
+                    std::cout<<"Material found! "<<*scene.map_mat.find(mat.name)->second<<std::endl;
                 }
+                //ss>>keyword;
                 
                 if(keyword == "shape"){
                     //ss<<line;     
                     ss>>keyword;
+                    std::cout<<"shape found"<<std::endl;
 
                     if(keyword == "box"){
                         std::string bname;
@@ -71,9 +74,11 @@
 
                         auto box = std::make_shared<Box>(bmin, bmax, bname, boxMat);
                         sceneshapes[bname] = box; //add to container so that you can find it afterwards for composite
+                        std::cout<<"Box found! "<<std::endl;
                     }
 
                     if(keyword == "sphere"){ 
+                        std::cout<<"sphere found!"<<std::endl;                        
                         std::string sname;
                         glm::vec3 scenter;
                         float sradius;
@@ -92,15 +97,16 @@
                     }
 
                     if (keyword == "composite") {
+                        std::cout<<"composite found"<<std::endl;
                         std::string compositeName;
                         std::string newShape;
 
-                        ss<<compositeName;
+                        ss>>compositeName;
 
                         scene.composite_ = std::make_shared<Composite>(compositeName);
 
                         while(!ss.eof()) {  //solange das File noch nicht zu Ende ist lies shapenamen ein
-                            ss<<newShape;
+                            ss>>newShape;
                              auto existingShape = sceneshapes.find(newShape); //schaue ob es das shape bereits existiert
 
                              if(existingShape != sceneshapes.end()){
@@ -113,7 +119,7 @@
                     }
                     
                 }  //shape geschlossen
-
+                
                 if (keyword == "light") {
 
                     unsigned int vecSize = 0;
@@ -134,7 +140,7 @@
                     auto light = std::make_shared<Lightsource>(lightname, pos, lightcol, brideness);
                     scene.light_.push_back(light);
                     ++ vecSize;
-
+                    std::cout<<"light found"<<std::endl;
 
                 }
 
@@ -160,6 +166,8 @@
                     Camera cam{cname, fox_x, pos, dir, up};
 
                     scene.cam_ = cam;
+                    std::cout<<"cam found"<<std::endl;
+
 
                 }
             } //define geschlossen
@@ -172,6 +180,7 @@
                 ss>>ambient.b;
 
                 scene.ambient_ = ambient;
+                std::cout<<"ambient found: "<< scene.ambient_<<std::endl;
 
             }
     
@@ -194,8 +203,9 @@
                 }
 
             }
-        file.close(); 
+        //file.close(); 
        }
+       file.close();
      }
      return scene;
  }

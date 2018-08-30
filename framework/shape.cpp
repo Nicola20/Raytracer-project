@@ -21,7 +21,7 @@ std::string Shape::getName() const {
     return name_;
 }
 
-std::shared_ptr<Material> Shape::getMaterial() const {
+std::shared_ptr<Material> Shape::getMaterial() const{
     return material_;
 }
 /*
