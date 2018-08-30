@@ -30,10 +30,16 @@ class Renderer
 public:
   Renderer(unsigned w, unsigned h, std::string const& file);
   Color raytrace(Ray const& ray);
+  /*
   void ambientLight(Color & clr, Color const& ka);
   void pointLight(Color & clr, std::shared_ptr<Lightsource> const& light, Ray const& ray, Hit const& hit);
   void diffuse(Color & clr, Hit const& hit, std::shared_ptr<Lightsource> const& light, glm::vec3 const& vecLight);
-  void spekular(Color & clr, Hit const& hit, std::shared_ptr<Lightsource> const& light, glm::vec3 const& vecLight);
+  void spekular(Color & clr, Hit const& hit, std::shared_ptr<Lightsource> const& light, glm::vec3 const& vecLight);*/
+  Color calculateColor(Hit const& hit, Ray const& ray);
+  Color ambientLight(Color const& ka);
+  Color pointLight(Hit const& hit, Ray const& ray, float delta);
+  Color diffuseLight(Hit const& hit,glm::vec3 const& vecToLight, std::shared_ptr<Lightsource> const & light);
+  Color spekularLight(Hit const& hit, std::shared_ptr<Lightsource> const& light, glm::vec3 const& vecLight);
   Color tonemapping(Color const& clr);
 
   void render(Scene const& scene);
