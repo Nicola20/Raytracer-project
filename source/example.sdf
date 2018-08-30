@@ -1,8 +1,8 @@
 define material red 1 0 0 1 0 0 1 0 0 20
 define material green 0 1 0 0 1 0 0 1 0 50
 define material blue 0 0 1 0 0 1 0 0 1 10
-define shape box bbox -100 -80 -200 100 80 -100 red
-define shape sphere ssphere 0 0 -100 50 blue
+define shape box bbox 0 -1 -200 10 8 -210 red
+define shape sphere ssphere 0 0 -100 10 blue
 define light lighty 1000 700 0 0.2 0.2 0.2 100
 define camera cam 45.0 0 0 0 0 0 -1 0 1 0 
 define shape composite root bbox ssphere

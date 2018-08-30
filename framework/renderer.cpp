@@ -27,13 +27,13 @@ Renderer::Renderer(unsigned w, unsigned h, std::string const& file)
 void Renderer::render(Scene const& scene)
 {
   scene_ = scene;
-  std::size_t const checker_pattern_size = 20;
+  //std::size_t const checker_pattern_size = 20;
 
   for (unsigned y = 0; y < height_; ++y) {  
     for (unsigned x = 0; x < width_; ++x) {
       Pixel p(x,y);
       Ray pixelRay = scene_.cam_.calculateCamRay(x, y, width_, height_);
-      
+  /*    
       #if USE_RAY_DIRECTION_VIS
         // color = Color( ((pixelRay.x + 1) / 2.0) * 255, ...);
       #endif
@@ -43,10 +43,10 @@ void Renderer::render(Scene const& scene)
       } else {
         p.color = Color(1.0, 0.0, float(y)/width_);
       }
-      
-      //Color tmp = raytrace(pixelRay);  //hier zu tmpcollor = raytrace und dann p.color mit tonemappingformel berechnen
+  */    
+      Color tmp = raytrace(pixelRay);  //hier zu tmpcollor = raytrace und dann p.color mit tonemappingformel berechnen
 
-      //p.color = tonemapping(tmp);
+      p.color = tonemapping(tmp);
 
       write(p);
     }
@@ -131,7 +131,7 @@ void Renderer::spekular(Color & clr, Hit const& hit, std::shared_ptr<Lightsource
 
 Color Renderer::tonemapping(Color const& clr) {
 
-  float gamma = 0.5f;
+  float gamma = 0.99f;
   float a = 1.0f;
   Color final;
   final.r = a*pow(clr.r, gamma);
