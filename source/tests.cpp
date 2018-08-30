@@ -244,6 +244,7 @@ TEST_CASE("Scene test") {
 	//std::cout<<"Search result:"<<*materialMapSearch("red",scene)<<"\n";
 	//REQUIRE(materialMapSearch("black",scene) == nullptr);
   std::cout<< scene;
+  //std::cout << scene.map_mat.find("red")->second << scene.map_mat.find("blue")->second << scene.light_[0] << scene.cam_<< /**scene.composite_.find("ssphere")->second <<*/ scene.ambient_.r;
 } 
 
 
