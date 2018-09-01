@@ -17,7 +17,7 @@ class Shape {
     public:
     //virtual double area() const = 0;  //calculates the surface
     //virtual double volume() const = 0;  //calculates the volume
-    Shape(std::string const& name,std::shared_ptr<Material> const& mat);
+	Shape(std::string const& name, std::shared_ptr<Material> const& mat, glm::mat4 const& trans);
     Shape ();
     virtual std::ostream& print(std::ostream& os) const;
     std::string getName() const;
@@ -25,26 +25,25 @@ class Shape {
     virtual ~Shape();
     //~Shape();
     virtual Hit intersect (Ray const& ray) = 0;
-    /*
+    
     virtual void translate(glm::vec3 const& vec);
     virtual void scale(glm::vec3 const& vec);
     virtual void rotate(float phi, glm::vec3 const& vec);
     bool isTransformed();
-    */
-    /*
+    
     virtual void rotateX(float phi);
     virtual void rotateY(float phi);
     virtual void rotateZ(float phi);
-    */
+    
 
 
     protected:
     std::string name_;
     std::shared_ptr<Material> material_;
-    /*
+    
     glm::mat4 world_transformation_;
     glm::mat4 world_transformation_inv_;
-    bool transformed_; */
+    bool transformed_; 
 };
 
 std::ostream& operator<< (std::ostream& os, Shape const& s);
