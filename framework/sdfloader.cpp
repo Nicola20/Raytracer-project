@@ -203,8 +203,60 @@
                 }
 
             }
-        //file.close(); 
+/*
+            if (keyword == "transform") {
+                std::cout<<"transformation found"<<std::endl;
+                std::string shapename;
+                ss>>shapename;
+                ss<<keyword;
+
+                auto transform = sceneshapes.find(shapename); 
+                if (transform != sceneshapes.end()) {
+                    ss<<keyword;
+
+                    if (keyword == "translate") {
+                        std::cout<<"translation found"<<std::endl;
+                        glm::vec3 v;
+                        ss>>v.x;
+                        ss>>v.y;
+                        ss>>v.z;
+
+                        (transform->second)->translate(v);
+
+                    }
+
+                    if (keyword == "rotate") {
+                        std::cout<<"rotation found"<<std::endl;
+                        float phi;
+                        glm::vec3 vec;
+                        ss>>phi;
+                        ss>>vec.x;
+                        ss>>vec.y;
+                        ss>>vec.z;
+
+                        (transform->second)->rotate(phi, vec);
+
+                    }
+
+                    if (keyword == "scale") {
+                        std::cout<<"scale found"<<std::endl;
+                        glm::vec3 s;
+                        ss>>s.x;
+                        ss>>s.y;
+                        ss>>s.z;
+
+                        (transform->second)->scale(s);
+
+                    } 
+                } else if (shapename == scene.cam_.name_) { //ab hier noch if falls shapename = cameraname
+                    //berechnung von kamera transformation
+                    ss<<keyword;
+                    scene.cam_.transform();
+                }
+            }*/
+
        }
+
        file.close();
      }
      return scene;
