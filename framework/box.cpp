@@ -61,21 +61,21 @@ Hit Box::intersect (Ray const& ray) {
 
     float tx1 = (min_.x - ray.origin_.x)/ray.direction_.x;
     float tx2 = (max_.x - ray.origin_.x)/ray.direction_.x;
-    //float tmin = std::min(tx1, tx2);
-    //float tmax = std::max(tx1, tx2);
+    float tmin = std::min(tx1, tx2);
+    float tmax = std::max(tx1, tx2);
 
     float ty1 = (min_.y - ray.origin_.y)/ray.direction_.y;
     float ty2 = (max_.y - ray.origin_.y)/ray.direction_.y;
-    //tmin = std::max(tmin,std::min(ty1, ty2));
-    //tmax = std::min(tmax, std::max(ty1, ty2));
+    tmin = std::max(tmin,std::min(ty1, ty2));
+    tmax = std::min(tmax, std::max(ty1, ty2));
 
     float tz1 = (min_.z - ray.origin_.z)/ray.direction_.z;
     float tz2 = (max_.z - ray.origin_.z)/ray.direction_.z;
-    //tmin = std::max(tmin, std::min(tz1, tz2));
-    //tmax = std::min(tmax, std::max(tz1, tz2));
+    tmin = std::max(tmin, std::min(tz1, tz2));
+    tmax = std::min(tmax, std::max(tz1, tz2));
 
-    float tmin = std::max(std::max(std::min(tx1, tx2), std::min(ty1, ty2)), std::min(tz1, tz2));
-    float tmax = std::min(std::min(std::max(tx1, tx2), std::max(ty1, ty2)),std::max(tz1, tz2));
+    //float tmin = std::max(std::max(std::min(tx1, tx2), std::min(ty1, ty2)), std::min(tz1, tz2));
+    //float tmax = std::min(std::min(std::max(tx1, tx2), std::max(ty1, ty2)),std::max(tz1, tz2));
 /*
 // if tmax < 0, ray is intersecting, but the whole thing is behind us
 if (tmax < 0)
@@ -104,22 +104,22 @@ return true; */
 
         //berechnung der normalisierten Vektoren
         if (hit.intersection_.x == Approx(min_.x)) {
-            hit.normal_ =glm::vec3(-1.0f, 0.0f, 0.0f); //why though?
+            hit.normal_ =glm::normalize(glm::vec3(-1.0f, 0.0f, 0.0f)); //why though?
         } 
         if (hit.intersection_.x == Approx(max_.x)) {
-            hit.normal_ =glm::vec3(1.0f, 0.0f, 0.0f); 
+            hit.normal_ =glm::normalize(glm::vec3(1.0f, 0.0f, 0.0f)); 
         }
         if (hit.intersection_.y == Approx(min_.y)) {
-            hit.normal_ =glm::vec3(0.0f, -1.0f, 0.0f); //why though?
+            hit.normal_ =glm::normalize(glm::vec3(0.0f, -1.0f, 0.0f)); //why though?
         }
         if (hit.intersection_.y == Approx(max_.y)) {
-            hit.normal_ =glm::vec3(0.0f, 1.0f, 0.0f); //why though?
+            hit.normal_ =glm::normalize(glm::vec3(0.0f, 1.0f, 0.0f)); //why though?
         }
         if (hit.intersection_.z == Approx(min_.z)) {
-            hit.normal_ =glm::vec3(0.0f, 0.0f, -1.0f); //why though?
+            hit.normal_ =glm::normalize(glm::vec3(0.0f, 0.0f, -1.0f)); //why though?
         }
         if (hit.intersection_.z == Approx(max_.z)) {
-            hit.normal_ =glm::vec3(0.0f, 0.0f, 1.0f); //why though?
+            hit.normal_ =glm::normalize(glm::vec3(0.0f, 0.0f, 1.0f)); //why though?
         }
     }
 

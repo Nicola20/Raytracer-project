@@ -43,10 +43,11 @@ void Renderer::render(Scene const& scene)
       } else {
         p.color = Color(1.0, 0.0, float(y)/width_);
       }
-  */    
-      Color tmp = raytrace(pixelRay);  //hier zu tmpcollor = raytrace und dann p.color mit tonemappingformel berechnen
+  */  Color tmp;  
+      tmp = raytrace(pixelRay);  //hier zu tmpcollor = raytrace und dann p.color mit tonemappingformel berechnen
 
       p.color = tonemapping(tmp);
+      //p.color = raytrace(pixelRay);
 
       write(p);
     }
@@ -95,7 +96,7 @@ Color Renderer::pointLight(Hit const& hit, Ray const& ray, float delta) {
   for (auto & l: scene_.light_) {
     glm::vec3 vecToLight{l->position_ - hit.intersection_};
     vecToLight = glm::normalize(vecToLight); // I normalisiert
-    Ray newLightRay{hit.intersection_*glm::normalize(hit.normal_), vecToLight};
+    Ray newLightRay{hit.intersection_*0.001f, vecToLight};
     Hit lightHit = scene_.composite_->intersect(newLightRay);
     if (lightHit.hit_ == false) {
       Color diff = diffuseLight(hit, vecToLight, l);
@@ -125,7 +126,7 @@ Color Renderer::spekularLight(Hit const& hit, std::shared_ptr<Lightsource> const
 	Color ip = light->lightcol_ * float(light->ip_);        //steht so auf dem Aufgabenblatt
 	Color ks = hit.closest_shape_->getMaterial()->ks_;
 
-	clr += ip*cos*ks;;
+	return clr += ip*cos*ks;;
 }
 
 /*

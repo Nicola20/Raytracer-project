@@ -37,17 +37,18 @@ std::ostream& Sphere::print(std::ostream& os) const {
 } 
 
 Hit Sphere::intersect(Ray const& ray) {
-
+ 
     Hit hit;
     float t = 0.0f;
 
-    if (glm::intersectRaySphere(ray.origin_, ray.direction_, center_, radius_*radius_, t)) {//wird hier automatisch das kleinste t genommen?
-        hit.hit_ =true;
-        hit.intersection_ = (ray.origin_ + t*ray.direction_); //muss irgendwo direction noch normalisiert werden?
-        hit.distance_ = t; //sicher oder muss das auch normalisiert werden?
+    if (glm::intersectRaySphere(ray.origin_, glm::normalize(ray.direction_), center_, radius_*radius_, t)) {//wird hier automatisch das kleinste t genommen?
+        hit.hit_ = true;
+        hit.intersection_ = (ray.origin_ + t*glm::normalize(ray.direction_)); //muss irgendwo direction noch normalisiert werden?
+        hit.distance_ = t; 
         hit.closest_shape_ = this;
-        hit.normal_ = (hit.intersection_ - center_);
+        hit.normal_ = glm::normalize(hit.intersection_ - center_); 
 
     }
     return hit;
+
 } 
