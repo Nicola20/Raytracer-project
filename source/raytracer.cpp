@@ -15,7 +15,7 @@ int main(int argc, char* argv[])
   unsigned const image_height = 600;
 
   SDFLoader load;
-	Scene scn = load.loadFile("C:/Users/Gabriel/Desktop/uni/Raytracer-project/source/example.sdf");
+	Scene scn = load.loadFile("/home/nicola/Schreibtisch/Raytracer-project/source/example.sdf");
 
 
   //std::shared_ptr<Scene> scene = std::make_shared<Scene>();
