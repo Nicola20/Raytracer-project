@@ -87,8 +87,8 @@ Color Renderer::calculateColor(Hit const& hit, Ray const& ray){
 }
 
 Color Renderer::ambientLight(Color const& ka){
-  Color clr;
-  return clr +=(scene_.ambient_)*ka;
+  //Color clr;
+  return scene_.ambient_*ka;
 }
 
 Color Renderer::pointLight(Hit const& hit, Ray const& ray, float delta) {
@@ -96,12 +96,13 @@ Color Renderer::pointLight(Hit const& hit, Ray const& ray, float delta) {
   for (auto & l: scene_.light_) {
     glm::vec3 vecToLight{l->position_ - hit.intersection_};
     vecToLight = glm::normalize(vecToLight); // I normalisiert
-    Ray newLightRay{hit.intersection_*0.001f, vecToLight};
+    Ray newLightRay{hit.intersection_+vecToLight*0.001f, vecToLight};//vecToLight eingefügt
     Hit lightHit = scene_.composite_->intersect(newLightRay);
     if (lightHit.hit_ == false) {
       Color diff = diffuseLight(hit, vecToLight, l);
       Color spek = spekularLight(hit, l, vecToLight);
-      clr += diff+spek;
+      clr  = diff+spek;
+      delta = 1;
     } else {
       delta = 0;
     }
@@ -113,20 +114,21 @@ Color Renderer::diffuseLight(Hit const& hit,glm::vec3 const& vecToLight, std::sh
   Color ip = light->lightcol_*float(light->ip_);
   Color kd = hit.closest_shape_->getMaterial()->kd_;
   float vec = glm::dot(glm::normalize(hit.normal_),vecToLight);
-  Color clr;
-  return clr+= ip*kd*vec;
+  //Color clr;
+  return  ip*kd*vec;
 }
 
 Color Renderer::spekularLight(Hit const& hit, std::shared_ptr<Lightsource> const& light, glm::vec3 const& vecLight) {
-  Color clr;
+  //Color clr;
 	float m = hit.closest_shape_->getMaterial()->m_;
 	glm::vec3 v = glm::normalize(scene_.cam_.eyePos_ - hit.intersection_);
 	glm::vec3 r = glm::normalize(glm::dot(hit.normal_, vecLight)*2.0f*hit.normal_-vecLight);
 	float cos = pow(glm::dot(v, r), m);
 	Color ip = light->lightcol_ * float(light->ip_);        //steht so auf dem Aufgabenblatt
 	Color ks = hit.closest_shape_->getMaterial()->ks_;
+  //float m_pi = (m + 2) / (2 * M_PI);
 
-	return clr += ip*cos*ks;;
+	return ip * cos * ks;
 }
 
 /*
