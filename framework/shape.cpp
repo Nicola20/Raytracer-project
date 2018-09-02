@@ -1,18 +1,20 @@
 #include "shape.hpp"
 
 
-Shape::Shape(std::string const& name, std::shared_ptr<Material> const& mat, glm::mat4 const& trans) :
-	name_{ name },
-	material_{ mat },
-	world_transformation_{ trans }
+Shape::Shape(std::string const& name, std::shared_ptr<Material> const& mat) :
+	name_{name},
+	material_{mat},
+	world_transformation_{},
+	world_transformation_inv_{glm::inverse(world_transformation_)}
 {
 	std::cout << "ctor of base class shape \n";
-	world_transformation_inv_ = glm::inverse(world_transformation_);
 }
 
 Shape::Shape() :
-	name_{ "Default Shape" },
-	material_{} {}
+	name_{"Default Shape"},
+	material_{},
+	world_transformation_{},
+	world_transformation_inv_{glm::inverse(world_transformation_)} {}
 
 
 Shape::~Shape() {                  //dtor = destructor
@@ -50,7 +52,7 @@ void Shape::scale(glm::vec3 const& s) {
 	world_transformation_inv_ = glm::inverse(world_transformation_);
 	transformed_ = true;
 }
-
+/*
 void Shape::rotateX(float phi) {
 	glm::mat4 rotationMatX;
 	rotationMatX[0] = glm::vec4{ 1.0f, 0.0f, 0.0f, 0.0f };
@@ -80,7 +82,7 @@ void Shape::rotateZ(float phi) {  //was ist mit Umrechnung in rad? sin rechnet m
 	rotationMatZ[3] = glm::vec4{ 0.0f, 0.0f, 0.0f, 1.0f };
 	//hier noch was mit world_transformation machen aber noch nicht so ganz sicher was
 	transformed_ = true;
-}
+}*/
 
 void Shape::rotate(float phi, glm::vec3 const& vec) {
 	float rad = glm::radians(phi);

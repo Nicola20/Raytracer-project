@@ -26,6 +26,7 @@ Camera::Camera(std::string const& name, float fox_x, glm::vec3 const& eye, glm::
 
 
 Ray Camera::calculateCamRay(int x, int y, unsigned int width, unsigned int height) const {
+    
     glm::vec3 direction{ ((float(x)/(float(width))) - 0.5) , 
                          ((float(y)/(float(height)))- 0.5) , 
                         (-1.0f*(0.5f/tan(fox_x_/2)))};
@@ -33,6 +34,17 @@ Ray Camera::calculateCamRay(int x, int y, unsigned int width, unsigned int heigh
     direction = glm::normalize(direction);
     Ray camRay {eyePos_,direction};
     return camRay;
+    /*
+    float imageAspectRatio = width / float(height); // assuming width > height
+    float px = (2 * ((x + 0.5) / width) - 1) * tan(fox_x_ / 2 * M_PI / 180) * imageAspectRatio;
+    float py = (1 - 2 * ((y + 0.5) / height) * tan(fox_x_ / 2 * M_PI / 180));
+
+    glm::vec3 pixelvec{px, py, -1.0f};
+
+    glm::vec3 raydirection = pixelvec-eyePos_;
+
+    Ray camRay {eyePos_, glm::normalize(raydirection)};
+    return camRay;*/
 }
 
  std::ostream& Camera::print(std::ostream& os) const {

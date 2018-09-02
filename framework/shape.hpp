@@ -17,7 +17,7 @@ class Shape {
     public:
     //virtual double area() const = 0;  //calculates the surface
     //virtual double volume() const = 0;  //calculates the volume
-	Shape(std::string const& name, std::shared_ptr<Material> const& mat, glm::mat4 const& trans);
+	Shape(std::string const& name, std::shared_ptr<Material> const& mat);
     Shape ();
     virtual std::ostream& print(std::ostream& os) const;
     std::string getName() const;
@@ -30,11 +30,12 @@ class Shape {
     virtual void scale(glm::vec3 const& vec);
     virtual void rotate(float phi, glm::vec3 const& vec);
     bool isTransformed();
-    
+
+    /* //not needed 
     virtual void rotateX(float phi);
     virtual void rotateY(float phi);
     virtual void rotateZ(float phi);
-    
+    */
 
 
     protected:
