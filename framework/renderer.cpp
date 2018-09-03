@@ -81,8 +81,11 @@ Color Renderer::raytrace(Ray const& ray) {
 
 Color Renderer::calculateColor(Hit const& hit, Ray const& ray){
   float delta = 1;
+  Color ptl;
   Color amb = ambientLight(hit.closest_shape_->getMaterial()->ka_);
-  Color ptl = pointLight (hit, ray, delta);
+  for (auto & l: scene_.light_) {
+    ptl += pointLight (hit, ray, delta, l);
+  }
   return amb + (ptl*delta);
 }
 
@@ -91,22 +94,22 @@ Color Renderer::ambientLight(Color const& ka){
   return scene_.ambient_*ka;
 }
 
-Color Renderer::pointLight(Hit const& hit, Ray const& ray, float delta) {
+Color Renderer::pointLight(Hit const& hit, Ray const& ray, float delta, std::shared_ptr<Lightsource> const& l) {
   Color clr;
-  for (auto & l: scene_.light_) {
+  //for (auto & l: scene_.light_) {
     glm::vec3 vecToLight{l->position_ - hit.intersection_};
     vecToLight = glm::normalize(vecToLight); // I normalisiert
     Ray newLightRay{hit.intersection_+vecToLight*0.001f, vecToLight};//vecToLight eingefügt
     Hit lightHit = scene_.composite_->intersect(newLightRay);
-    if (lightHit.hit_ == false) {
+    if (lightHit.hit_ == false) { //hier könnte man mit distance arbeiten, falls Schatten nicht funktionieren sollte.
       Color diff = diffuseLight(hit, vecToLight, l);
       Color spek = spekularLight(hit, l, vecToLight);
       clr  = diff+spek;
-      delta = 1;
+     // delta = 1;
     } else {
       delta = 0;
     }
-  }
+ // }
   return clr;
 }
 
