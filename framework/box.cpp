@@ -2,6 +2,7 @@
 #include <math.h>
 #include <algorithm>
 #include <catch.hpp>
+#include <glm/ext.hpp>
 
 Box::Box (glm::vec3 const& min, glm::vec3 const& max,std::string const& name, std::shared_ptr<Material> const& mat):
     Shape::Shape(name, mat),
@@ -54,10 +55,17 @@ std::ostream& Box::print(std::ostream& os) const {
     return os;
 }
 
-Hit Box::intersect (Ray const& ray) {
+Hit Box::intersect (Ray const& inray) {
 
     Hit hit;
-    //Ray ray = rayn; //anders wenn transformation eintrifft
+    Ray ray;
+
+    if (isTransformed()) {
+        ray = transformRay(world_transformation_inv_,inray);
+    } else {
+        ray = inray;
+    }
+
 
     float tx1 = (min_.x - ray.origin_.x)/ray.direction_.x;
     float tx2 = (max_.x - ray.origin_.x)/ray.direction_.x;
@@ -94,7 +102,7 @@ return true; */
     if (tmax > std::max(0.0f, tmin)) {
 
         hit.hit_ = true;
-        hit.distance_ = std::abs(tmin); //really not quite sure if this is true or if the ddistance between vectors has to be here
+        hit.distance_ = std::abs(tmin); //oder doch eher Abstand zwischen 2 Vektoren?
 
         //hab ich so in nem Paper gefunden
         hit.intersection_ = glm::vec3 (ray.origin_.x + ray.direction_.x*tmin,ray.origin_.y + 
@@ -121,7 +129,12 @@ return true; */
         if (hit.intersection_.z == Approx(max_.z)) {
             hit.normal_ =glm::normalize(glm::vec3(0.0f, 0.0f, 1.0f)); //why though?
         }
+
+        if (isTransformed()) {
+            hit.normal_ = glm::vec3(glm::mat3(glm::transpose(world_transformation_inv_))*hit.normal_); 
+        }
     }
+
 
     return hit;
 } 

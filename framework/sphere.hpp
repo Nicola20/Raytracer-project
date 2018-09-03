@@ -14,7 +14,7 @@ class Sphere: public Shape {
     glm::vec3 getCenter() const;
     double getRadius() const;
     std::ostream& print(std::ostream& os) const override;
-    Hit intersect (Ray const& ray) override;
+    Hit intersect (Ray const& inray) override;
     ~Sphere() override;
     //~Sphere();
 

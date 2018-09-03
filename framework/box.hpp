@@ -1,9 +1,9 @@
 #ifndef BOX_HPP
 #define BOX_HPP
 
-#include <glm/vec3.hpp>
 #include "shape.hpp"
 //#include "ray.hpp"
+#include <glm/vec3.hpp>
 
 class Box: public Shape {
 
@@ -17,7 +17,7 @@ class Box: public Shape {
     std::ostream& print(std::ostream& os) const override;
      ~Box() override;
      //~Box();
-     Hit intersect(Ray const& ray) override;
+     Hit intersect(Ray const& inray) override;
 
     private:
     glm::vec3 max_;

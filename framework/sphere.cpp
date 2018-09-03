@@ -36,10 +36,17 @@ std::ostream& Sphere::print(std::ostream& os) const {
     return os;
 } 
 
-Hit Sphere::intersect(Ray const& ray) {
+Hit Sphere::intersect(Ray const& inray) {
  
     Hit hit;
+    Ray ray;
     float t = 0.0f;
+
+    if (isTransformed()) {
+        ray = transformRay(world_transformation_inv_,inray);
+    } else {
+        ray = inray;
+    }
 
     if (glm::intersectRaySphere(ray.origin_, glm::normalize(ray.direction_), center_, radius_*radius_, t)) {//wird hier automatisch das kleinste t genommen?
         hit.hit_ = true;
@@ -49,6 +56,11 @@ Hit Sphere::intersect(Ray const& ray) {
         hit.normal_ = glm::normalize(hit.intersection_ - center_); 
 
     }
+
+    if (isTransformed()) {
+        hit.normal_ = glm::vec3(glm::mat3(glm::transpose(world_transformation_inv_))*hit.normal_); 
+    }
+
     return hit;
 
 } 
