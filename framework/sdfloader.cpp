@@ -146,13 +146,13 @@
 
                if (keyword == "camera") {
                     std::string cname;
-                    float fox_x;
+                    float fov_x;
                     glm::vec3 pos;
                     glm::vec3 dir;
                     glm::vec3 up;
 
                     ss>>cname;
-                    ss>>fox_x;
+                    ss>>fov_x;
                     ss>>pos.x;
                     ss>>pos.y;
                     ss>>pos.z;
@@ -163,7 +163,7 @@
                     ss>>up.y;
                     ss>>up.z;
 
-                    Camera cam{cname, fox_x, pos, dir, up};
+                    Camera cam{cname, fov_x, pos, dir, up};
 
                     scene.cam_ = cam;
                     std::cout<<"cam found"<<std::endl;
@@ -203,18 +203,19 @@
                 }
 
             }
-/*
+
             if (keyword == "transform") {
                 std::cout<<"transformation found"<<std::endl;
                 std::string shapename;
                 ss>>shapename;
-                ss<<keyword;
+                //ss<<keyword;
 
                 auto transform = sceneshapes.find(shapename); 
-                if (transform != sceneshapes.end()) {
-                    ss<<keyword;
+                if (transform != sceneshapes.end()) { 
+                    ss>>keyword;
+                    std::cout<<"hello there general Kenobi"<<std::endl;
 
-                    if (keyword == "translate") {
+                    if (keyword == "translate") { 
                         std::cout<<"translation found"<<std::endl;
                         glm::vec3 v;
                         ss>>v.x;
@@ -248,12 +249,12 @@
                         (transform->second)->scale(s);
 
                     } 
-                } else if (shapename == scene.cam_.name_) { //ab hier noch if falls shapename = cameraname
+                } /*else if (shapename == scene.cam_.name_) { //ab hier noch if falls shapename = cameraname
                     //berechnung von kamera transformation
                     ss<<keyword;
                     scene.cam_.transform();
-                }
-            }*/
+                }*/
+            }
 
        }
 

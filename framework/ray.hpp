@@ -16,10 +16,8 @@ struct Ray {
         origin_{origin},
         direction_{glm::normalize(distance)} {}
 
-    glm::vec3 origin_; //= {0.0f, 0.0f, 0.0f};
-    glm::vec3 direction_; //= {0.0f, 0.0f, -1.0f};
 
-	Ray transformRay(glm::mat4 const& mat, Ray const& ray) { // hier noch ray eingefügt
+	friend Ray transformRay(glm::mat4 const& mat, Ray const& ray) { // hier noch ray eingefügt
 
 		glm::vec4 origin_o{ ray.origin_,1.0f };
 		glm::vec4 direction_o{ ray.direction_, 0.0f };
@@ -32,5 +30,9 @@ struct Ray {
 
 		return Ray{ origin_i, direction_i };
 	}
+
+    glm::vec3 origin_; //= {0.0f, 0.0f, 0.0f};
+    glm::vec3 direction_; //= {0.0f, 0.0f, -1.0f};
+
 };
 # endif //RAY_HPP
