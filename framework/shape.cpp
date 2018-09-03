@@ -4,8 +4,11 @@
 Shape::Shape(std::string const& name, std::shared_ptr<Material> const& mat) :
 	name_{name},
 	material_{mat},
-	world_transformation_{},
-	world_transformation_inv_{glm::inverse(world_transformation_)}
+	world_transformation_{glm::mat4(1.0f)},
+	world_transformation_inv_{glm::mat4(1.0f)},
+	translate_{glm::mat4(1.0f)},
+	scale_{glm::mat4(1.0f)},
+	rotate_{glm::mat4(1.0f)}
 {
 	std::cout << "ctor of base class shape \n";
 }
@@ -13,8 +16,11 @@ Shape::Shape(std::string const& name, std::shared_ptr<Material> const& mat) :
 Shape::Shape() :
 	name_{"Default Shape"},
 	material_{},
-	world_transformation_{},
-	world_transformation_inv_{glm::inverse(world_transformation_)} {}
+	world_transformation_{glm::mat4(1.0f)},
+	world_transformation_inv_{glm::mat4(1.0f)},
+	translate_{glm::mat4(1.0f)},
+	scale_{glm::mat4(1.0f)},
+	rotate_{glm::mat4(1.0f)} {}
 
 
 Shape::~Shape() {                  //dtor = destructor
@@ -30,14 +36,23 @@ std::shared_ptr<Material> Shape::getMaterial() const {
 	return material_;
 }
 
+//translate und scale auch mit glm funktionen möglich
 void Shape::translate(glm::vec3 const& v) {
 	glm::mat4 translationMat;
 	translationMat[0] = glm::vec4{ 1.0f, 0.0f, 0.0f, 0.0f };
 	translationMat[1] = glm::vec4{ 0.0f, 1.0f, 0.0f, 0.0f };
 	translationMat[2] = glm::vec4{ 0.0f, 0.0f, 1.0f, 0.0f };
 	translationMat[3] = glm::vec4{ v, 1.0f };
-	world_transformation_ = world_transformation_ * translationMat;
-	world_transformation_inv_ = glm::inverse(world_transformation_);
+	translate_ = translationMat;
+
+	glm::mat4 trInverse;
+	trInverse[0] = glm::vec4{ 1.0f, 0.0f, 0.0f, 0.0f };
+	trInverse[1] = glm::vec4{ 0.0f, 1.0f, 0.0f, 0.0f };
+	trInverse[2] = glm::vec4{ 0.0f, 0.0f, 1.0f, 0.0f };
+	trInverse[3] = glm::vec4{ -v, 1.0f };
+
+	world_transformation_ = translate_*rotate_*scale_; //das hier muss noch angepasst werden in richtiger Reihenfolge mit translate etc.
+	world_transformation_inv_ = world_transformation_inv_*trInverse;
 	transformed_ = true;
 
 }
@@ -48,8 +63,16 @@ void Shape::scale(glm::vec3 const& s) {
 	scaleMat[1] = glm::vec4{ 0.0f, s.y, 0.0f, 0.0f };
 	scaleMat[2] = glm::vec4{ 0.0f, 0.0f, s.z, 0.0f };
 	scaleMat[3] = glm::vec4{ 0.0f, 0.0f, 0.0f, 1.0f };
-	world_transformation_ = world_transformation_ * scaleMat;
-	world_transformation_inv_ = glm::inverse(world_transformation_);
+	scale_ = scaleMat;
+
+	glm::mat4 scInverse;
+	scInverse[0] = glm::vec4{ 1.0f/float(s.x), 0.0f, 0.0f, 0.0f };
+	scInverse[1] = glm::vec4{ 0.0f, 1.0f/float(s.y), 0.0f, 0.0f };
+	scInverse[2] = glm::vec4{ 0.0f, 0.0f, 1.0f/float(s.z), 0.0f };
+	scInverse[3] = glm::vec4{ 0.0f, 0.0f, 0.0f, 1.0f };
+
+	world_transformation_ = translate_*rotate_*scale_;
+	world_transformation_inv_ = world_transformation_inv_*scInverse;
 	transformed_ = true;
 }
 /*
@@ -86,9 +109,9 @@ void Shape::rotateZ(float phi) {  //was ist mit Umrechnung in rad? sin rechnet m
 
 void Shape::rotate(float phi, glm::vec3 const& vec) {
 	float rad = glm::radians(phi);
-	glm::mat4 rotationMat = glm::rotate(glm::mat4(1.0), rad, vec);
-	world_transformation_ = world_transformation_ * rotationMat;
-	world_transformation_inv_ = glm::inverse(world_transformation_);
+	rotate_ = glm::rotate(glm::mat4(1.0), rad, vec);
+	world_transformation_ = translate_*rotate_*scale_;
+	world_transformation_inv_ = world_transformation_inv_*(glm::rotate(glm::mat4(1.0),-rad, vec));
 	transformed_ = true;
 }
 

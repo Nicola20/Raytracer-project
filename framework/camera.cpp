@@ -3,33 +3,37 @@
 
 Camera::Camera ():
     name_{"default camera"},
-    fox_x_{45.0},
+    fov_x_{45.0},
     eyePos_{0.0f, 0.0f, 0.0f},
     direction_{0.0f, 0.0f, -1.0f},
     upVector_{0.0f, 1.0f, 0.0f} {}
 
 
 
-Camera::Camera (std::string const& name, float fox_x):
+Camera::Camera (std::string const& name, float fov_x):
     name_{name},
-    fox_x_{fox_x},
+    fov_x_{fov_x},
     eyePos_{0.0f, 0.0f, 0.0f},
     direction_{0.0f, 0.0f, -1.0f},
-    upVector_{0.0f, 1.0f, 0.0f}  {}
+    upVector_{0.0f, 1.0f, 0.0f},
+    transform_{},
+    transformInv_{glm::inverse(transform_)}  {}
 
-Camera::Camera(std::string const& name, float fox_x, glm::vec3 const& eye, glm::vec3 const& dir, glm::vec3 const& up):
+Camera::Camera(std::string const& name, float fov_x, glm::vec3 const& eye, glm::vec3 const& dir, glm::vec3 const& up):
     name_{name},
-    fox_x_{fox_x},
+    fov_x_{fov_x},
     eyePos_{eye},
     direction_{dir},
-    upVector_{up} {}
+    upVector_{up},
+    transform_{},
+    transformInv_{glm::inverse(transform_)} {}
 
 
 Ray Camera::calculateCamRay(int x, int y, unsigned int width, unsigned int height) const {
     
     glm::vec3 direction{ ((float(x)/(float(width))) - 0.5) , 
                          ((float(y)/(float(height)))- 0.5) , 
-                        (-1.0f*(0.5f/tan(fox_x_/2)))};
+                        (-1.0f*(0.5f/tan(fov_x_/2)))};
 
     direction = glm::normalize(direction);
     Ray camRay {eyePos_,direction};
@@ -49,7 +53,7 @@ Ray Camera::calculateCamRay(int x, int y, unsigned int width, unsigned int heigh
 
  std::ostream& Camera::print(std::ostream& os) const {
     os << "Camera: " << name_<<"\n" 
-        "fox_x: " << fox_x_ << 
+        "fox_x: " << fov_x_ << 
         "eyePosition: ( " << eyePos_.x << ", " <<
         eyePos_.y << ", " << eyePos_.z << ") \n"
         "Blickrichtung: (" << direction_.x << ", " <<

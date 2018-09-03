@@ -24,7 +24,7 @@ class Shape {
     std::shared_ptr<Material> getMaterial() const;
     virtual ~Shape();
     //~Shape();
-    virtual Hit intersect (Ray const& ray) = 0;
+    virtual Hit intersect (Ray const& inray) = 0;
     
     virtual void translate(glm::vec3 const& vec);
     virtual void scale(glm::vec3 const& vec);
@@ -44,7 +44,10 @@ class Shape {
     
     glm::mat4 world_transformation_;
     glm::mat4 world_transformation_inv_;
-    bool transformed_; 
+    bool transformed_;
+    glm::mat4 translate_;
+    glm::mat4 scale_;
+    glm::mat4 rotate_; 
 };
 
 std::ostream& operator<< (std::ostream& os, Shape const& s);
