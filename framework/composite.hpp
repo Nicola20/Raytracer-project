@@ -14,7 +14,7 @@ class Composite : public Shape {
     //double area() const override;
     //double volume() const override;
     void addShape(std::shared_ptr<Shape> const& shape);
-    Hit intersect (Ray const& ray) override; 
+    Hit intersect (Ray const& inray) override; 
     std::ostream& print(std::ostream& os) const override; 
 
     private:

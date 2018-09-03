@@ -21,13 +21,13 @@ std::ostream& Composite::print(std::ostream& os) const {
   return os;
 }
 
-Hit Composite::intersect (Ray const& ray) {
+Hit Composite::intersect (Ray const& inray) {
 
     Hit closestHit;
     Hit currentHit;
 
     for (auto const& s : shapes_) {
-       currentHit = s -> intersect(ray);
+       currentHit = s -> intersect(inray);
        if (currentHit.distance_ < closestHit.distance_){ //check if currentHit is nearer if so then it is the closest
            closestHit = currentHit;
        }
