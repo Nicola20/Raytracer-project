@@ -37,7 +37,7 @@ public:
   void spekular(Color & clr, Hit const& hit, std::shared_ptr<Lightsource> const& light, glm::vec3 const& vecLight);*/
   Color calculateColor(Hit const& hit, Ray const& ray);
   Color ambientLight(Color const& ka);
-  Color pointLight(Hit const& hit, Ray const& ray, float delta, std::shared_ptr<Lightsource> const& l);
+  Color pointLight(Hit const& hit, Ray const& ray, float delta);
   Color diffuseLight(Hit const& hit,glm::vec3 const& vecToLight, std::shared_ptr<Lightsource> const & light);
   Color spekularLight(Hit const& hit, std::shared_ptr<Lightsource> const& light, glm::vec3 const& vecLight);
   Color tonemapping(Color const& clr);

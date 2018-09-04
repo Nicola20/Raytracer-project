@@ -20,7 +20,7 @@ struct Ray {
 	friend Ray transformRay(glm::mat4 const& mat, Ray const& ray) { // hier noch ray eingefügt
 
 		glm::vec4 origin_o{ ray.origin_,1.0f };
-		glm::vec4 direction_o{ ray.direction_, 0.0f };
+		glm::vec4 direction_o{ ray.direction_, 0.0f};
 
 		glm::vec4 origin_homogen = mat * origin_o;
 		glm::vec4 direction_homogen = mat * direction_o;
