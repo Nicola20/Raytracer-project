@@ -133,7 +133,14 @@ Hit Box::intersect (Ray const& inray) {
 
 
 Hit Box::intersect(Ray const& inray) {
-	Ray ray = transformRay(world_transformation_inv_, inray);
+
+	Ray ray;
+	if (isTransformed()) {
+		ray = transformRay(world_transformation_inv_, inray);
+	}
+	else {
+		ray = inray;
+	}
 	if (min_.x > max_.x)std::swap(min_.x, max_.x);
 	if (min_.y > max_.y)std::swap(min_.y, max_.y);
 	if (min_.z > max_.z)std::swap(min_.z, max_.z);
@@ -161,6 +168,9 @@ Hit Box::intersect(Ray const& inray) {
 	}
 	if (nearest.hit_) {
 		nearest.closest_shape_ = this;
+		if (isTransformed()) {
+			nearest.normal_ = glm::vec3(glm::mat3(glm::transpose(world_transformation_inv_))*nearest.normal_);
+		}
 		return nearest;
 	}
 	else
@@ -202,16 +212,3 @@ Hit Box::surfacehit(Ray const& ray, glm::vec3 p1, glm::vec3 p2, glm::vec3 p3, gl
 	else { return Hit{}; }
 }
 
-/*inline glm::vec3 cross(glm::vec3 const& v1, glm::vec3 const& v2)
-{
-	glm::vec3 res;
-	res.x = (v1.y * v2.z) - (v1.z * v2.y);
-	res.y = (v1.z * v2.x) - (v1.x * v2.z);
-	res.z = (v1.x * v2.y) - (v1.y * v2.x);
-	return res;
-}
-
-float skalar(glm::vec3 const& a, glm::vec3 const& b)
- {
-	 return (a.x * b.x) + (a.y * b.y) + (a.z * b.z);
- }*/
