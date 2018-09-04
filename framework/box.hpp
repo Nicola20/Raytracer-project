@@ -6,7 +6,7 @@
 #include <glm/vec3.hpp>
 #include <memory>
 #include <cmath>
-#include "vectoroperations.hpp"
+
 class Box: public Shape {
 
     public:
