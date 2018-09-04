@@ -37,18 +37,36 @@ Ray Camera::calculateCamRay(int x, int y, unsigned int width, unsigned int heigh
 
     direction = glm::normalize(direction);
     Ray camRay {eyePos_,direction};
-    return camRay;
-    /*
-    float imageAspectRatio = width / float(height); // assuming width > height
-    float px = (2 * ((x + 0.5) / width) - 1) * tan(fox_x_ / 2 * M_PI / 180) * imageAspectRatio;
-    float py = (1 - 2 * ((y + 0.5) / height) * tan(fox_x_ / 2 * M_PI / 180));
+    return camRay; //hier möglicherweise Änderungen vornehmen
+}
 
-    glm::vec3 pixelvec{px, py, -1.0f};
+void Camera::translate(glm::vec3 const& vec){
+    glm::mat4 translationMat;
+	translationMat[0] = glm::vec4{ 1.0f, 0.0f, 0.0f, 0.0f };
+	translationMat[1] = glm::vec4{ 0.0f, 1.0f, 0.0f, 0.0f };
+	translationMat[2] = glm::vec4{ 0.0f, 0.0f, 1.0f, 0.0f };
+	translationMat[3] = glm::vec4{ vec, 1.0f };
+	camTranslate_ = translationMat;
 
-    glm::vec3 raydirection = pixelvec-eyePos_;
+	glm::mat4 trInverse;
+	trInverse[0] = glm::vec4{ 1.0f, 0.0f, 0.0f, 0.0f };
+	trInverse[1] = glm::vec4{ 0.0f, 1.0f, 0.0f, 0.0f };
+	trInverse[2] = glm::vec4{ 0.0f, 0.0f, 1.0f, 0.0f };
+	trInverse[3] = glm::vec4{ -vec, 1.0f };
 
-    Ray camRay {eyePos_, glm::normalize(raydirection)};
-    return camRay;*/
+	transform_ = camTranslate_*camRotate_; //das hier muss noch angepasst werden in richtiger Reihenfolge mit translate etc.
+	transformInv_ = transformInv_*trInverse;
+	//transformed_ = true;
+
+}
+
+void Camera::rotate(float phi, glm::vec3 const& vec) {
+    float rad = glm::radians(phi);
+	camRotate_ = glm::rotate(glm::mat4(1.0), rad, vec);
+	transform_ = camTranslate_*camRotate_;
+	transformInv_ = transformInv_*(glm::rotate(glm::mat4(1.0),-rad, vec));
+	//transformed_ = true;
+
 }
 
  std::ostream& Camera::print(std::ostream& os) const {

@@ -16,6 +16,8 @@ struct Camera {
     Camera(std::string const& name, float fov_x, glm::vec3 const& eye, glm::vec3 const& dir, glm::vec3 const& up);
     std::ostream& print (std::ostream& os) const;
     Ray calculateCamRay(int x, int y, unsigned int width, unsigned int height) const;
+    void translate(glm::vec3 const& vec);
+    void rotate(float phi, glm::vec3 const& vec);
 
 
     std::string name_;
@@ -25,6 +27,8 @@ struct Camera {
     glm::vec3 upVector_;
     glm::mat4 transform_;
     glm::mat4 transformInv_;
+    glm::mat4 camTranslate_;
+    glm::mat4 camRotate_;
 
     
 
