@@ -41,6 +41,7 @@ public:
   Color diffuseLight(Hit const& hit,glm::vec3 const& vecToLight, std::shared_ptr<Lightsource> const & light);
   Color spekularLight(Hit const& hit, std::shared_ptr<Lightsource> const& light, glm::vec3 const& vecLight);
   Color tonemapping(Color const& clr);
+  Color antialias(Pixel & p, Scene const& scene);
 
   void render(Scene const& scene);
   void write(Pixel const& p);

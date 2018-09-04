@@ -1,10 +1,13 @@
 define material red 1 0 0 1 0 0 1 0 0 20
 define material green 0 1 0 0 1 0 0 1 0 50
 define material blue 0 0 1 0 0 1 0 0 1 10
-define shape box bbox 0 0 -200 45 35 -235 red
-define shape sphere ssphere 0 0 -100 10 blue
-define light lighty 0 0 0 0.2 0.2 0.2 100
+define shape box bbox -100 -10 0 100 -51 -200 green
+define shape box abox 20 0 -75 50 35 -150 red
+define shape sphere ssphere 0 10 -100 10 blue
+define shape sphere asphere 0 20 -100 10 red
+define light lighty 0 100 -50 0.2 0.2 0.2 100
+define light lought 101 0 0 0.2 0.2 0.2 100
 define camera cam 45.0 0 0 0 0 0 -1 0 1 0 
-define shape composite root bbox ssphere
+define shape composite root bbox abox ssphere asphere
 ambient 0.1 0.1 0.1 
 render cam image.ppm 480 320

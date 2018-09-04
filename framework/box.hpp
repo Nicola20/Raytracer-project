@@ -2,9 +2,11 @@
 #define BOX_HPP
 
 #include "shape.hpp"
-//#include "ray.hpp"
+#include "ray.hpp"
 #include <glm/vec3.hpp>
-
+#include <memory>
+#include <cmath>
+#include "vectoroperations.hpp"
 class Box: public Shape {
 
     public:
@@ -18,7 +20,11 @@ class Box: public Shape {
      ~Box() override;
      //~Box();
      Hit intersect(Ray const& inray) override;
-
+	 Hit surfacehit(Ray const& ray, glm::vec3 p1, glm::vec3 p2, glm::vec3 p3, glm::vec3 p4)const;
+	// inline glm::vec3 cross(glm::vec3 const& v1, glm::vec3 const& v2)const;
+	// float skalar(glm::vec3 const& a, glm::vec3 const& b) const;
+	 
+	 
     private:
     glm::vec3 max_;
     glm::vec3 min_;

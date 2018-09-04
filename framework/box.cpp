@@ -55,7 +55,7 @@ std::ostream& Box::print(std::ostream& os) const {
     return os;
 }
 
-Hit Box::intersect (Ray const& inray) {
+/*Hit Box::intersect (Ray const& inray) {
 
     Hit hit;
     Ray ray;
@@ -99,6 +99,7 @@ if (tmin > tmax)
 
  t = std::abs(tmin);
 return true; */
+/*
     if (tmax > std::max(0.0f, tmin)) {
 
         hit.hit_ = true;
@@ -138,3 +139,87 @@ return true; */
 
     return hit;
 } 
+*/
+Hit Box::intersect(Ray const& inray) {
+	Ray ray = transformRay(world_transformation_inv_, inray);
+	if (min_.x > max_.x)std::swap(min_.x, max_.x);
+	if (min_.y > max_.y)std::swap(min_.y, max_.y);
+	if (min_.z > max_.z)std::swap(min_.z, max_.z);
+
+	Hit hit[6];
+	hit[0] = surfacehit(ray,glm::vec3{ max_.x,max_.y,max_.z }, glm::vec3{ max_.x,min_.y,max_.z }, glm::vec3{ min_.x,min_.y,max_.z }, glm::vec3{ min_.x,max_.y,max_.z });
+	//back:
+	hit[1] = surfacehit(ray,glm::vec3{ min_.x,min_.y,min_.z }, glm::vec3{ max_.x,min_.y,min_.z }, glm::vec3{ max_.x,max_.y,min_.z }, glm::vec3{ min_.x,max_.y,min_.z });
+	//right
+	hit[2] = surfacehit(ray, glm::vec3{ max_.x,max_.y,max_.z }, glm::vec3{ max_.x,max_.y,min_.z }, glm::vec3{ max_.x,min_.y,min_.z }, glm::vec3{ max_.x,min_.y,max_.z });
+	//left
+	hit[3] = surfacehit(ray, glm::vec3{ min_.x,min_.y,min_.z }, glm::vec3{ min_.x,max_.y,min_.z }, glm::vec3{ min_.x,max_.y,max_.z }, glm::vec3{ min_.x,min_.y,max_.z });
+	//top
+	hit[4] = surfacehit(ray, glm::vec3{ max_.x,max_.y,max_.z }, glm::vec3{ min_.x,max_.y,max_.z }, glm::vec3{ min_.x,max_.y,min_.z }, glm::vec3{ max_.x,max_.y,min_.z });
+	//bottom
+	hit[5] = surfacehit(ray, glm::vec3{ min_.x,min_.y,min_.z }, glm::vec3{ min_.x,min_.y,max_.z }, glm::vec3{ max_.x,min_.y,max_.z }, glm::vec3{ max_.x,min_.y,min_.z });
+	//front 
+	Hit nearest;
+
+
+	for (int i = 0; i < 6; i++) {
+		if (hit[i].hit_ && 0.0001 < hit[i].distance_ && hit[i].distance_ < nearest.distance_) {
+			nearest = hit[i];
+		}
+	}
+	if (nearest.hit_) {
+		nearest.closest_shape_ = this;
+		return nearest;
+	}
+	else
+	{
+		return Hit{};
+	}
+}
+
+Hit Box::surfacehit(Ray const& ray, glm::vec3 p1, glm::vec3 p2, glm::vec3 p3, glm::vec3 p4)const {
+	Hit hit;
+	glm::vec3 norm{ glm::normalize(cross(p4 - p1,p2 - p1)) };
+	float denominator = skalar(norm, ray.direction_);
+	if (denominator != 0) {
+		float distance = (-(norm.x*(ray.origin_.x - p1.x)) - (norm.y*(ray.origin_.y - p1.y))
+			- (norm.z*(ray.origin_.z - p1.z))) / denominator;//ebenenintersect
+
+		if (distance > 0.001)
+		{
+			glm::vec3 object_position = ray.origin_ + (distance * ray.direction_);
+
+			glm::vec3 world_position{ world_transformation_ * glm::vec4{ object_position,1 } };
+			glm::vec4 world_normal{ world_transformation_inv_* glm::vec4{ norm  ,0 } };
+
+			hit.intersection_ = object_position;
+			{
+				if (skalar(p4 - p1, p1 - hit.intersection_) <= 0 && skalar(p1 - p2, p2 - hit.intersection_) <= 0 && skalar(p2 - p3, p3 - hit.intersection_) <= 0 && skalar(p3 - p4, p4 - hit.intersection_) <= 0)
+				{//flächenbegrenzung
+					hit.intersection_ = world_position;
+					hit.hit_ = true;
+					hit.normal_ = glm::vec3{ world_normal.x,world_normal.y,world_normal.z };
+					hit.distance_ = distance;
+				}
+			}
+		}
+	}
+	if (hit.hit_) {
+		return hit;
+	}
+	else { return Hit{}; }
+}
+
+/*inline glm::vec3 cross(glm::vec3 const& v1, glm::vec3 const& v2)
+{
+	glm::vec3 res;
+	res.x = (v1.y * v2.z) - (v1.z * v2.y);
+	res.y = (v1.z * v2.x) - (v1.x * v2.z);
+	res.z = (v1.x * v2.y) - (v1.y * v2.x);
+	return res;
+}
+
+float skalar(glm::vec3 const& a, glm::vec3 const& b)
+ {
+	 return (a.x * b.x) + (a.y * b.y) + (a.z * b.z);
+ }*/
