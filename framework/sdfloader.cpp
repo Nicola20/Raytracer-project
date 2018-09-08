@@ -97,6 +97,31 @@
                         auto sphere = std::make_shared<Sphere>(scenter, sradius, sname, sphereMat);
                         sceneshapes[sname] = sphere;
                     }
+					if (keyword == "triangle") {
+						std::cout << "triangle found!" << std::endl;
+						std::string tname;
+						std::string mat;
+						glm::vec3 tp1;
+						glm::vec3 tp2;
+						glm::vec3 tp3;
+
+						ss >> tname;
+						ss >> tp1.x;
+						ss >> tp1.y;
+						ss >> tp1.z;
+						ss >> tp2.x;
+						ss >> tp2.y;
+						ss >> tp2.z;
+						ss >> tp3.x;
+						ss >> tp3.y;
+						ss >> tp3.z;
+
+						ss >> mat;
+
+						std::shared_ptr<Material> triangleMat = scene.map_mat.find(mat)->second;
+						auto triangle = std::make_shared<Triangle>(tp1, tp2, tp3, tname, triangleMat);
+
+					}
 
                     if (keyword == "composite") {
                         std::cout<<"composite found"<<std::endl;

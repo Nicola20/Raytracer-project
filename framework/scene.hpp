@@ -4,6 +4,7 @@
 #include "shape.hpp"
 #include "sphere.hpp"
 #include "box.hpp"
+#include "triangle.hpp"
 #include "color.hpp"
 #include "composite.hpp"
 #include "lightsource.hpp"
