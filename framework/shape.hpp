@@ -10,7 +10,8 @@
 #include <glm/vec4.hpp> 
 #include <glm/mat4x4.hpp>
 #include <math.h>
-#include "glm/gtc/matrix_transform.hpp"
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/glm.hpp>
 
 class Shape {
 
@@ -29,7 +30,7 @@ class Shape {
     virtual void translate(glm::vec3 const& vec);
     virtual void scale(glm::vec3 const& vec);
     virtual void rotate(float phi, glm::vec3 const& vec);
-    bool isTransformed();
+    //bool isTransformed();
 
     /* //not needed 
     virtual void rotateX(float phi);

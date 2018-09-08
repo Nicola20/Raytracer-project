@@ -8,7 +8,7 @@ Box::Box (glm::vec3 const& min, glm::vec3 const& max,std::string const& name, st
     Shape::Shape(name, mat),
     min_{min},
     max_{max} {
-        std::cout << "ctor of derived class Box \n";
+        //std::cout << "ctor of derived class Box \n";
     }
 
 Box::Box():
@@ -18,7 +18,7 @@ Box::Box():
     
 
 Box::~Box(){
-    std::cout << "dtor of derived class Box \n";
+    //std::cout << "dtor of derived class Box \n";
 }
 
 glm::vec3 Box::getMin() const{
@@ -135,7 +135,7 @@ Hit Box::intersect (Ray const& inray) {
 Hit Box::intersect(Ray const& inray) {
 
 	Ray ray;
-	if (isTransformed()) {
+	if (transformed_) {
 		ray = transformRay(world_transformation_inv_, inray);
 	}
 	else {
@@ -168,8 +168,9 @@ Hit Box::intersect(Ray const& inray) {
 	}
 	if (nearest.hit_) {
 		nearest.closest_shape_ = this;
-		if (isTransformed()) {
+		if (transformed_) {
 			nearest.normal_ = glm::vec3(glm::mat3(glm::transpose(world_transformation_inv_))*nearest.normal_);
+            //nearest.intersection_ = glm::vec3(world_transformation_* glm::vec4(nearest.intersection_, 1));
 		}
 		return nearest;
 	}

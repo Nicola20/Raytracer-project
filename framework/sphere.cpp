@@ -5,11 +5,11 @@ Sphere::Sphere (glm::vec3 const& c, double r,std::string const& name, std::share
     Shape::Shape(name, mat),
     center_{c},
     radius_{r} {
-        std::cout << "ctor of derived class Sphere \n";
+        //std::cout << "ctor of derived class Sphere \n";
     }
 
 Sphere::~Sphere(){
-    std::cout << "dtor of derived class Sphere \n";
+    //std::cout << "dtor of derived class Sphere \n";
 }
 
 glm::vec3 Sphere::getCenter() const{
@@ -39,7 +39,7 @@ std::ostream& Sphere::print(std::ostream& os) const {
 Hit Sphere::intersect(Ray const& inray) {
  
     Hit hit;
-    Ray ray;
+    Ray ray{inray.origin_, glm::normalize(inray.direction_)};
     float t = 0.0f;
 
    if (transformed_) {
@@ -57,7 +57,8 @@ Hit Sphere::intersect(Ray const& inray) {
     }
 
     if (transformed_) {
-        hit.normal_ = glm::vec3(glm::mat3(glm::transpose(world_transformation_inv_))*hit.normal_); 
+        hit.normal_ = glm::vec3(glm::mat3(glm::transpose(world_transformation_inv_))*hit.normal_);
+        hit.intersection_ = glm::vec3(world_transformation_* glm::vec4(hit.intersection_, 1)); 
     }
 
     return hit;
