@@ -120,6 +120,8 @@
 
 						std::shared_ptr<Material> triangleMat = scene.map_mat.find(mat)->second;
 						auto triangle = std::make_shared<Triangle>(tp1, tp2, tp3, tname, triangleMat);
+                        sceneshapes[tname] = triangle;
+                        std::cout<<"triangle eingelesen"<<std::endl;
 
 					}
 
