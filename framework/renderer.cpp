@@ -59,34 +59,43 @@ void Renderer::render(Scene const& scene)
 
 Color Renderer::raytrace(Ray const& ray) {
 
-  Hit closest = scene_.composite_ -> intersect(ray); //muss hier dann jetzt mal gucken; bei composite stimmt was nicht
+	Hit closest = scene_.composite_->intersect(ray); //muss hier dann jetzt mal gucken; bei composite stimmt was nicht
   Color clr;
+  int step = 2;
 
-  if (closest.hit_) {
-    /*
-    ambientLight(clr, closest.closest_shape_->getMaterial() -> ka_);
+	if (closest.hit_) {
+		/*
+		ambientLight(clr, closest.closest_shape_->getMaterial() -> ka_);
 
-    for (auto & l: scene_.light_){
-        pointLight(clr, l, ray, closest);
-    }*/
-    clr = calculateColor(closest, ray);
-    
-    
+		for (auto & l: scene_.light_){
+			pointLight(clr, l, ray, closest);
+		}*/
+
+		
+	clr = calculateColor(closest, ray, step); 
+
   } else {
-     clr = Color {0.0f, 0.0f, 0.4f}; //Hier Farbwert für Hintergrund setzen: dunkelblau
-  }
-
-  return clr; //Farbberechnung, die sich durch die Funktionen aufaddiert hat
+		clr = Color{ 0.0f, 0.0f, 0.4f }; //Hier Farbwert für Hintergrund setzen: dunkelblau
+	}
+	return clr; //Farbberechnung, die sich durch die Funktionen aufaddiert hat
+	
 }
 
-Color Renderer::calculateColor(Hit const& hit, Ray const& ray){
+
+Color Renderer::calculateColor(Hit const& hit, Ray const& ray, int step){
   float delta = 1;
   Color ptl;
+  Color clr;
   Color amb = ambientLight(hit.closest_shape_->getMaterial()->ka_);
   //for (auto & l: scene_.light_) {
     ptl = pointLight (hit, ray, delta);
-  //}
-  return amb + (ptl*delta);
+    if (hit.closest_shape_-> getMaterial() -> reflection_) {
+			//int reflection = hit.closest_shape_->getMaterial()->reflection_;
+			 clr = calculateReflection(hit, ray, scene_, step);
+		}
+		
+
+  return amb + (ptl*delta) + clr;
 }
 
 Color Renderer::ambientLight(Color const& ka){
@@ -99,13 +108,14 @@ Color Renderer::pointLight(Hit const& hit, Ray const& ray, float delta) {
   for (auto & l: scene_.light_) {
     glm::vec3 vecToLight{l->position_ - hit.intersection_};
     vecToLight = glm::normalize(vecToLight); // I normalisiert
-    Ray newLightRay{hit.intersection_+vecToLight*0.001f, vecToLight};//vecToLight eingefügt
+    Ray newLightRay{hit.intersection_+hit.normal_, vecToLight};//vecToLight eingefügt
     Hit lightHit = scene_.composite_->intersect(newLightRay);
     float distance = glm::length(hit.intersection_ - l->position_);
 
+	
     if (lightHit.distance_ > distance) { //hier gefixt für 2 Lichtquellen und Schatten
       Color diff = diffuseLight(hit, vecToLight, l);
-      Color spek = spekularLight(hit, l, vecToLight);
+      Color spek = spekularLight(hit, l, vecToLight, ray);
       clr  += diff+spek;
      delta = 1;
     } else {
@@ -123,17 +133,47 @@ Color Renderer::diffuseLight(Hit const& hit,glm::vec3 const& vecToLight, std::sh
   return  ip*kd*vec;
 }
 
-Color Renderer::spekularLight(Hit const& hit, std::shared_ptr<Lightsource> const& light, glm::vec3 const& vecLight) {
-  //Color clr;
-	float m = hit.closest_shape_->getMaterial()->m_;
+Color Renderer::spekularLight(Hit const& hit, std::shared_ptr<Lightsource> const& light, glm::vec3 const& vecToLight, Ray const& ray) {
+  Color clr;
+	/*float m = hit.closest_shape_->getMaterial()->m_;
 	glm::vec3 v = glm::normalize(scene_.cam_.eyePos_ - hit.intersection_);
 	glm::vec3 r = glm::normalize(glm::dot(hit.normal_, vecLight)*2.0f*hit.normal_-vecLight);
 	float cos = pow(glm::dot(v, r), m);
 	Color ip = light->lightcol_ * float(light->ip_);        //steht so auf dem Aufgabenblatt
 	Color ks = hit.closest_shape_->getMaterial()->ks_;
-  //float m_pi = (m + 2) / (2 * M_PI);
+  float m_pi = (m + 2) / (2 * M_PI);
 
-	return ip * cos * ks;
+  return ip * cos * ks* m_pi;*/
+  
+  glm::vec3 reflection = glm::normalize(glm::reflect(-(vecToLight),hit.normal_));
+  float factor = std::max(0.0f, glm::dot(reflection, glm::normalize(-(ray.direction_))));
+  clr = (hit.closest_shape_ ->getMaterial()-> ks_)*pow(factor, hit.closest_shape_ ->getMaterial()-> m_);
+  return clr;
+}
+
+Color Renderer::calculateReflection(Hit const& hit, Ray const& ray, Scene const& scene, int step) {
+
+	glm::vec3 reflection_vec = glm::reflect(glm::normalize(ray.direction_), glm::normalize(hit.normal_));
+	Ray new_ray{ hit.intersection_ + hit.normal_, glm::normalize(reflection_vec) };
+	
+	Hit new_hit = scene.composite_->intersect(new_ray);
+	//Color objectlight = calculateColor(hit, ray, step);
+	//Color maincolor = hit.closest_shape_->getMaterial()->ka_;
+
+	if (!new_hit.hit_) {
+		 Color umgebung{ 0.0f, 0.0f, 0.4f };
+		
+		 return umgebung; //+ maincolor * 0.2f + objectlight * 0.4f;
+	}
+	else {
+		if (step > 0) {
+      //-step;
+      Color reflected_color;
+      reflected_color = calculateColor(new_hit, new_ray, step-1);
+			return reflected_color; //+ maincolor* 0.2f + objectlight * 0.4f ;
+		}
+		else { return Color{ 0.0,0.0,0.0 }; }
+	}
 }
 
 /*

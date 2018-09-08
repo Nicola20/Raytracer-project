@@ -11,11 +11,11 @@
 int main(int argc, char* argv[])
 {
 
-  unsigned const image_width = 800;
-  unsigned const image_height = 600;
+  unsigned const image_width = 1200;
+  unsigned const image_height = 900;
 
   SDFLoader load;
-	Scene scn = load.loadFile("C:/Users/Gabriel/Desktop/ray3/Raytracer-project/source/example.sdf");
+	Scene scn = load.loadFile("/home/IN/fesi8250/Documents/ray3/Raytracer-project/source/example.sdf");
 
 
   //std::shared_ptr<Scene> scene = std::make_shared<Scene>();

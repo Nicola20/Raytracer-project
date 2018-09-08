@@ -1,4 +1,4 @@
-#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
 
 #IncludeRegexScan: ^.*$
 
@@ -696,9 +696,9 @@ array
 string
 -
 
-/home/nicola/Dokumente/Programmiersprachen/ProPra Abgabe 6/programmiersprachen-raytracer/source/example.cpp
+/home/IN/fesi8250/Documents/ray3/Raytracer-project/source/example.cpp
 fensterchen.hpp
-/home/nicola/Dokumente/Programmiersprachen/ProPra Abgabe 6/programmiersprachen-raytracer/source/fensterchen.hpp
+/home/IN/fesi8250/Documents/ray3/Raytracer-project/source/fensterchen.hpp
 GLFW/glfw3.h
 -
 utility

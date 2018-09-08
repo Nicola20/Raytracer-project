@@ -3,6 +3,7 @@
 
 #include <glm/vec3.hpp>
 #include "shape.hpp"
+#include <cmath>
 //#include "ray.hpp"
 
 class Sphere: public Shape {
@@ -15,6 +16,7 @@ class Sphere: public Shape {
     double getRadius() const;
     std::ostream& print(std::ostream& os) const override;
     Hit intersect (Ray const& inray) override;
+    //inline float skalar(glm::vec3 const& a,glm::vec3 const& b);
     ~Sphere() override;
     //~Sphere();
 

@@ -35,12 +35,13 @@ public:
   void pointLight(Color & clr, std::shared_ptr<Lightsource> const& light, Ray const& ray, Hit const& hit);
   void diffuse(Color & clr, Hit const& hit, std::shared_ptr<Lightsource> const& light, glm::vec3 const& vecLight);
   void spekular(Color & clr, Hit const& hit, std::shared_ptr<Lightsource> const& light, glm::vec3 const& vecLight);*/
-  Color calculateColor(Hit const& hit, Ray const& ray);
+  Color calculateColor(Hit const& hit, Ray const& ray, int step);
   Color ambientLight(Color const& ka);
   Color pointLight(Hit const& hit, Ray const& ray, float delta);
   Color diffuseLight(Hit const& hit,glm::vec3 const& vecToLight, std::shared_ptr<Lightsource> const & light);
-  Color spekularLight(Hit const& hit, std::shared_ptr<Lightsource> const& light, glm::vec3 const& vecLight);
+  Color spekularLight(Hit const& hit, std::shared_ptr<Lightsource> const& light, glm::vec3 const& vecToLight, Ray const& ray);
   Color tonemapping(Color const& clr);
+  Color calculateReflection(Hit const& hit, Ray const& ray, Scene const& scene, int step);
   Color antialias(Pixel & p, Scene const& scene);
 
   void render(Scene const& scene);

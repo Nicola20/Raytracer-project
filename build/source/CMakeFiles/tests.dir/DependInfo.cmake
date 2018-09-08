@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/nicola/Dokumente/Programmiersprachen/ProPra Abgabe 6/programmiersprachen-raytracer/source/tests.cpp" "/home/nicola/Dokumente/Programmiersprachen/ProPra Abgabe 6/programmiersprachen-raytracer/build/source/CMakeFiles/tests.dir/tests.cpp.o"
+  "/home/IN/fesi8250/Documents/ray3/Raytracer-project/source/tests.cpp" "/home/IN/fesi8250/Documents/ray3/Raytracer-project/build/source/CMakeFiles/tests.dir/tests.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
@@ -25,7 +25,7 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
-  "/home/nicola/Dokumente/Programmiersprachen/ProPra Abgabe 6/programmiersprachen-raytracer/build/framework/CMakeFiles/framework.dir/DependInfo.cmake"
+  "/home/IN/fesi8250/Documents/ray3/Raytracer-project/build/framework/CMakeFiles/framework.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.

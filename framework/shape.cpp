@@ -71,8 +71,10 @@ void Shape::scale(glm::vec3 const& s) {
 	scInverse[2] = glm::vec4{ 0.0f, 0.0f, 1.0f/float(s.z), 0.0f };
 	scInverse[3] = glm::vec4{ 0.0f, 0.0f, 0.0f, 1.0f };
 
-	world_transformation_ = translate_*rotate_*scale_;
-	world_transformation_inv_ = world_transformation_inv_*scInverse;
+	//world_transformation_ = translate_*rotate_*scale_;
+	world_transformation_ = scale_ * world_transformation_;
+	//world_transformation_inv_ = world_transformation_inv_*scInverse;
+	world_transformation_inv_ = glm::inverse(world_transformation_);
 	transformed_ = true;
 }
 /*

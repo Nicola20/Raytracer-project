@@ -1,4 +1,4 @@
-#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
 
 #IncludeRegexScan: ^.*$
 
@@ -34,7 +34,7 @@ GL/glew.h
 windows.h
 -
 
-/home/nicola/Dokumente/Programmiersprachen/ProPra Abgabe 6/programmiersprachen-raytracer/framework/glew.c
+/home/IN/fesi8250/Documents/ray3/Raytracer-project/framework/glew.c
 GL/glew.h
 -
 GL/wglew.h

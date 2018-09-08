@@ -1,4 +1,4 @@
-#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
 
 #IncludeRegexScan: ^.*$
 
@@ -750,6 +750,26 @@ vector_relational.hpp
 integer.hpp
 ../external/glm-0.9.5.3/glm/integer.hpp
 
+../external/glm-0.9.5.3/glm/gtc/matrix_transform.hpp
+../mat4x4.hpp
+../external/glm-0.9.5.3/glm/mat4x4.hpp
+../vec2.hpp
+../external/glm-0.9.5.3/glm/vec2.hpp
+../vec3.hpp
+../external/glm-0.9.5.3/glm/vec3.hpp
+../vec4.hpp
+../external/glm-0.9.5.3/glm/vec4.hpp
+matrix_transform.inl
+../external/glm-0.9.5.3/glm/gtc/matrix_transform.inl
+
+../external/glm-0.9.5.3/glm/gtc/matrix_transform.inl
+../geometric.hpp
+../external/glm-0.9.5.3/glm/geometric.hpp
+../trigonometric.hpp
+../external/glm-0.9.5.3/glm/trigonometric.hpp
+../matrix.hpp
+../external/glm-0.9.5.3/glm/matrix.hpp
+
 ../external/glm-0.9.5.3/glm/gtx/closest_point.hpp
 ../glm.hpp
 ../external/glm-0.9.5.3/glm/glm.hpp
@@ -842,18 +862,54 @@ detail/type_vec4.hpp
 detail/func_vector_relational.hpp
 ../external/glm-0.9.5.3/glm/detail/func_vector_relational.hpp
 
-../framework/ambient.hpp
-memory
--
-
 ../framework/box.hpp
-glm/vec3.hpp
--
 shape.hpp
 ../framework/shape.hpp
+ray.hpp
+../framework/ray.hpp
+glm/vec3.hpp
+-
+memory
+-
+cmath
+-
+
+../framework/camera.hpp
+ray.hpp
+../framework/ray.hpp
+string
+-
+glm/vec3.hpp
+-
+iostream
+-
+glm/mat4x4.hpp
+-
+math.h
+-
+glm/gtc/matrix_transform.hpp
+../framework/glm/gtc/matrix_transform.hpp
 
 ../framework/color.hpp
 iostream
+-
+
+../framework/composite.hpp
+shape.hpp
+../framework/shape.hpp
+ray.hpp
+../framework/ray.hpp
+vector
+-
+string
+-
+
+../framework/hit.hpp
+shape.hpp
+../framework/shape.hpp
+glm/vec3.hpp
+-
+memory
 -
 
 ../framework/lightsource.hpp
@@ -863,8 +919,6 @@ string
 -
 color.hpp
 ../framework/color.hpp
-ambient.hpp
-../framework/ambient.hpp
 memory
 -
 iostream
@@ -882,6 +936,8 @@ memory
 
 ../framework/ray.hpp
 glm/vec3.hpp
+-
+glm/vec4.hpp
 -
 glm/glm.hpp
 -
@@ -895,17 +951,41 @@ sphere.hpp
 ../framework/sphere.hpp
 box.hpp
 ../framework/box.hpp
-fstream
--
+color.hpp
+../framework/color.hpp
+composite.hpp
+../framework/composite.hpp
+lightsource.hpp
+../framework/lightsource.hpp
+camera.hpp
+../framework/camera.hpp
+material.hpp
+../framework/material.hpp
 string
 -
 vector
 -
 map
 -
-set
+fstream
+-
+iostream
+-
+sstream
+-
+
+../framework/sdfloader.hpp
+scene.hpp
+../framework/scene.hpp
+string
 -
 algorithm
+-
+fstream
+-
+iostream
+-
+sstream
 -
 
 ../framework/shape.hpp
@@ -913,36 +993,50 @@ material.hpp
 ../framework/material.hpp
 ray.hpp
 ../framework/ray.hpp
+hit.hpp
+../framework/hit.hpp
 string
 -
 memory
 -
+glm/glm.hpp
+-
+glm/vec4.hpp
+-
+glm/mat4x4.hpp
+-
+math.h
+-
+glm/gtc/matrix_transform.hpp
+../framework/glm/gtc/matrix_transform.hpp
 
 ../framework/sphere.hpp
 glm/vec3.hpp
 -
 shape.hpp
 ../framework/shape.hpp
+cmath
+-
 
-/home/nicola/Dokumente/Programmiersprachen/ProPra Abgabe 6/programmiersprachen-raytracer/source/tests.cpp
+/home/IN/fesi8250/Documents/ray3/Raytracer-project/source/tests.cpp
 catch.hpp
 -
 box.hpp
-/home/nicola/Dokumente/Programmiersprachen/ProPra Abgabe 6/programmiersprachen-raytracer/source/box.hpp
+/home/IN/fesi8250/Documents/ray3/Raytracer-project/source/box.hpp
 sphere.hpp
-/home/nicola/Dokumente/Programmiersprachen/ProPra Abgabe 6/programmiersprachen-raytracer/source/sphere.hpp
+/home/IN/fesi8250/Documents/ray3/Raytracer-project/source/sphere.hpp
 shape.hpp
-/home/nicola/Dokumente/Programmiersprachen/ProPra Abgabe 6/programmiersprachen-raytracer/source/shape.hpp
+/home/IN/fesi8250/Documents/ray3/Raytracer-project/source/shape.hpp
 ray.hpp
-/home/nicola/Dokumente/Programmiersprachen/ProPra Abgabe 6/programmiersprachen-raytracer/source/ray.hpp
+/home/IN/fesi8250/Documents/ray3/Raytracer-project/source/ray.hpp
 material.hpp
-/home/nicola/Dokumente/Programmiersprachen/ProPra Abgabe 6/programmiersprachen-raytracer/source/material.hpp
-scene.hpp
-/home/nicola/Dokumente/Programmiersprachen/ProPra Abgabe 6/programmiersprachen-raytracer/source/scene.hpp
+/home/IN/fesi8250/Documents/ray3/Raytracer-project/source/material.hpp
+sdfloader.hpp
+/home/IN/fesi8250/Documents/ray3/Raytracer-project/source/sdfloader.hpp
 lightsource.hpp
-/home/nicola/Dokumente/Programmiersprachen/ProPra Abgabe 6/programmiersprachen-raytracer/source/lightsource.hpp
-ambient.hpp
-/home/nicola/Dokumente/Programmiersprachen/ProPra Abgabe 6/programmiersprachen-raytracer/source/ambient.hpp
+/home/IN/fesi8250/Documents/ray3/Raytracer-project/source/lightsource.hpp
+composite.hpp
+/home/IN/fesi8250/Documents/ray3/Raytracer-project/source/composite.hpp
 glm/glm.hpp
 -
 glm/gtx/intersect.hpp

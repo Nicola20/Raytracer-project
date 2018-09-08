@@ -5,7 +5,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "/home/nicola/Dokumente/Programmiersprachen/ProPra Abgabe 6/programmiersprachen-raytracer/framework/glew.c" "/home/nicola/Dokumente/Programmiersprachen/ProPra Abgabe 6/programmiersprachen-raytracer/build/framework/CMakeFiles/framework.dir/glew.c.o"
+  "/home/IN/fesi8250/Documents/ray3/Raytracer-project/framework/glew.c" "/home/IN/fesi8250/Documents/ray3/Raytracer-project/build/framework/CMakeFiles/framework.dir/glew.c.o"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 
@@ -25,13 +25,16 @@ set(CMAKE_C_TARGET_INCLUDE_PATH
   "../framework/.."
   )
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/nicola/Dokumente/Programmiersprachen/ProPra Abgabe 6/programmiersprachen-raytracer/framework/box.cpp" "/home/nicola/Dokumente/Programmiersprachen/ProPra Abgabe 6/programmiersprachen-raytracer/build/framework/CMakeFiles/framework.dir/box.cpp.o"
-  "/home/nicola/Dokumente/Programmiersprachen/ProPra Abgabe 6/programmiersprachen-raytracer/framework/pixel.cpp" "/home/nicola/Dokumente/Programmiersprachen/ProPra Abgabe 6/programmiersprachen-raytracer/build/framework/CMakeFiles/framework.dir/pixel.cpp.o"
-  "/home/nicola/Dokumente/Programmiersprachen/ProPra Abgabe 6/programmiersprachen-raytracer/framework/ppmwriter.cpp" "/home/nicola/Dokumente/Programmiersprachen/ProPra Abgabe 6/programmiersprachen-raytracer/build/framework/CMakeFiles/framework.dir/ppmwriter.cpp.o"
-  "/home/nicola/Dokumente/Programmiersprachen/ProPra Abgabe 6/programmiersprachen-raytracer/framework/renderer.cpp" "/home/nicola/Dokumente/Programmiersprachen/ProPra Abgabe 6/programmiersprachen-raytracer/build/framework/CMakeFiles/framework.dir/renderer.cpp.o"
-  "/home/nicola/Dokumente/Programmiersprachen/ProPra Abgabe 6/programmiersprachen-raytracer/framework/shape.cpp" "/home/nicola/Dokumente/Programmiersprachen/ProPra Abgabe 6/programmiersprachen-raytracer/build/framework/CMakeFiles/framework.dir/shape.cpp.o"
-  "/home/nicola/Dokumente/Programmiersprachen/ProPra Abgabe 6/programmiersprachen-raytracer/framework/sphere.cpp" "/home/nicola/Dokumente/Programmiersprachen/ProPra Abgabe 6/programmiersprachen-raytracer/build/framework/CMakeFiles/framework.dir/sphere.cpp.o"
-  "/home/nicola/Dokumente/Programmiersprachen/ProPra Abgabe 6/programmiersprachen-raytracer/framework/window.cpp" "/home/nicola/Dokumente/Programmiersprachen/ProPra Abgabe 6/programmiersprachen-raytracer/build/framework/CMakeFiles/framework.dir/window.cpp.o"
+  "/home/IN/fesi8250/Documents/ray3/Raytracer-project/framework/box.cpp" "/home/IN/fesi8250/Documents/ray3/Raytracer-project/build/framework/CMakeFiles/framework.dir/box.cpp.o"
+  "/home/IN/fesi8250/Documents/ray3/Raytracer-project/framework/camera.cpp" "/home/IN/fesi8250/Documents/ray3/Raytracer-project/build/framework/CMakeFiles/framework.dir/camera.cpp.o"
+  "/home/IN/fesi8250/Documents/ray3/Raytracer-project/framework/composite.cpp" "/home/IN/fesi8250/Documents/ray3/Raytracer-project/build/framework/CMakeFiles/framework.dir/composite.cpp.o"
+  "/home/IN/fesi8250/Documents/ray3/Raytracer-project/framework/pixel.cpp" "/home/IN/fesi8250/Documents/ray3/Raytracer-project/build/framework/CMakeFiles/framework.dir/pixel.cpp.o"
+  "/home/IN/fesi8250/Documents/ray3/Raytracer-project/framework/ppmwriter.cpp" "/home/IN/fesi8250/Documents/ray3/Raytracer-project/build/framework/CMakeFiles/framework.dir/ppmwriter.cpp.o"
+  "/home/IN/fesi8250/Documents/ray3/Raytracer-project/framework/renderer.cpp" "/home/IN/fesi8250/Documents/ray3/Raytracer-project/build/framework/CMakeFiles/framework.dir/renderer.cpp.o"
+  "/home/IN/fesi8250/Documents/ray3/Raytracer-project/framework/sdfloader.cpp" "/home/IN/fesi8250/Documents/ray3/Raytracer-project/build/framework/CMakeFiles/framework.dir/sdfloader.cpp.o"
+  "/home/IN/fesi8250/Documents/ray3/Raytracer-project/framework/shape.cpp" "/home/IN/fesi8250/Documents/ray3/Raytracer-project/build/framework/CMakeFiles/framework.dir/shape.cpp.o"
+  "/home/IN/fesi8250/Documents/ray3/Raytracer-project/framework/sphere.cpp" "/home/IN/fesi8250/Documents/ray3/Raytracer-project/build/framework/CMakeFiles/framework.dir/sphere.cpp.o"
+  "/home/IN/fesi8250/Documents/ray3/Raytracer-project/framework/window.cpp" "/home/IN/fesi8250/Documents/ray3/Raytracer-project/build/framework/CMakeFiles/framework.dir/window.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

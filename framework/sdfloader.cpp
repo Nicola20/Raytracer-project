@@ -40,6 +40,8 @@
                     ss>> mat.ks_.b;
 
                     ss>> mat.m_;
+
+					ss >> mat.reflection_;
                     
                     std::shared_ptr<Material> matPoint = std::make_shared<Material>(mat);
                     //scene.map_mat.insert(std::pair<std::string,std::shared_ptr<Material>>(matPoint->name,matPoint));
