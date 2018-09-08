@@ -29,21 +29,11 @@ Material (std::string name, Color const& ks, Color const& kd, Color const& ka, f
 		 "ka: " << m.ka_ <<
 		 "kd: " << m.kd_ <<
 		 "ks: " << m.ks_ <<
-		 "Spekularreflexionsexponent: " << m.m_ <<
+		 "Spekularreflexionsexponent: " << m.m_ <<"\n"<<
 		 "Reflektionsgrad:" << m.reflection_ << "\n";
     return os;
 }
-
-/*
-   bool operator== (std::shared_ptr<Material> const& mat) {
-       if(name == mat -> name) {  //geht mit mat -> name wirft dann aber wieder operationsfehler
-           return true;
-       } else {
-           return false;
-       }
-   }*/
-
-    
+   
 
 std::string name;
 Color ks_;

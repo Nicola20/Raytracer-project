@@ -251,11 +251,36 @@
                         (transform->second)->scale(s);
 
                     } 
-                } /*else if (shapename == scene.cam_.name_) { //ab hier noch if falls shapename = cameraname
-                    //berechnung von kamera transformation
-                    ss<<keyword;
-                    scene.cam_.transform();
-                }*/
+                }  else if (shapename == scene.cam_.name_) { //ab hier noch if falls shapename = cameraname
+                    std::cout<<"Camera Transformation found"<<std::endl;
+                    ss>>keyword;
+                    if (keyword == "translate") {
+                        glm::vec3 camtransvec;
+
+                        ss>>camtransvec.x;
+                        ss>>camtransvec.y;
+                        ss>>camtransvec.z;
+
+                        scene.cam_.translate(camtransvec);
+                        std::cout<<"camera translation found"<<std::endl;
+                    }
+
+                    if (keyword == "rotate") {
+                        float phi;
+                        glm::vec3 camrotvec;
+
+                        ss>>phi;
+                        ss>>camrotvec.x;
+                        ss>>camrotvec.y;
+                        ss>>camrotvec.z;
+
+                        scene.cam_.rotate(phi, camrotvec);
+                        std::cout<<"camera rotation found: "<<"\n"<<
+                        "Winkel:" <<phi<<"\n"<< 
+                        "Rotationsvektor: "<<camrotvec.x <<", "<< camrotvec.y<<", "<< camrotvec.z<< std::endl;
+                    }
+
+                }
             }
 
        }
