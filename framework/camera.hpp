@@ -29,6 +29,7 @@ struct Camera {
     glm::mat4 transformInv_;
     glm::mat4 camTranslate_;
     glm::mat4 camRotate_;
+    bool isTransformed_;
 
     
 
