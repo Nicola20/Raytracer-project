@@ -34,3 +34,4 @@ Hit Composite::intersect (Ray const& inray) {
     }
     return closestHit;
 }
+

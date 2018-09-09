@@ -1,5 +1,7 @@
+#define _USE_MATH_DEFINES
 #include "camera.hpp"
 #include <glm/vec4.hpp>
+
 
 Camera::Camera ():
     name_{"default camera"},
@@ -32,11 +34,11 @@ Camera::Camera(std::string const& name, float fov_x, glm::vec3 const& eye, glm::
 
 
 Ray Camera::calculateCamRay(int x, int y, unsigned int width, unsigned int height) const {
-    
-    glm::vec3 direction{ ((float(x)/(float(width))) - 0.5) , 
+	double d = (width/ 2) / tan(fov_x_ / 2 * M_PI / 180);
+   /* glm::vec3 direction{ ((float(x)/(float(width))) - 0.5) , 
                          ((float(y)/(float(height)))- 0.5) , 
-                        (-1.0f*(0.5f/tan(fov_x_/2)))}; //wenn hier radians, dann zoomt das Bild
-
+                        (-1.0f*(0.5f/tan(fov_x_/2)))}; *///wenn hier radians, dann zoomt das Bild
+	glm::vec3 direction{ x - (0.5 * width),y - (0.5 * height),-d };
     direction = glm::normalize(direction);
     Ray camRay {eyePos_,direction};
 

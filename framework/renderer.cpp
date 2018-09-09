@@ -44,8 +44,8 @@ void Renderer::render(Scene const& scene)
         p.color = Color(1.0, 0.0, float(y)/width_);
       }
   */  Color tmp;  
-      tmp = raytrace(pixelRay);  //hier zu tmpcollor = raytrace und dann p.color mit tonemappingformel berechnen
-	  //tmp = antialias(p, scene_);
+      //tmp = raytrace(pixelRay);  //hier zu tmpcollor = raytrace und dann p.color mit tonemappingformel berechnen
+	  tmp = antialias(p, scene_);
       p.color = tonemapping(tmp);
       
 
@@ -247,10 +247,10 @@ Color Renderer::antialias(Pixel & p, Scene const& scene) {
 	float y = p.y;
 	std::vector<Ray> rays;
 	rays.push_back(scene.cam_.calculateCamRay(x, y, scene.width_, scene.height_));
-	rays.push_back(scene.cam_.calculateCamRay(x + 0.25, y + 0.25, scene.width_, scene.height_));
-	rays.push_back(scene.cam_.calculateCamRay(x - 0.25, y - 0.25, scene.width_, scene.height_));
-	rays.push_back(scene.cam_.calculateCamRay(x - 0.25, y - 0.25, scene.width_, scene.height_));
-	rays.push_back(scene.cam_.calculateCamRay(x + 0.25, y + 0.25, scene.width_, scene.height_));
+	rays.push_back(scene.cam_.calculateCamRay(x + 0.5, y + 0.5, scene.width_, scene.height_));
+	rays.push_back(scene.cam_.calculateCamRay(x - 0.5, y - 0.5, scene.width_, scene.height_));
+	rays.push_back(scene.cam_.calculateCamRay(x - 0.5, y - 0.5, scene.width_, scene.height_));
+	rays.push_back(scene.cam_.calculateCamRay(x + 0.5, y + 0.5, scene.width_, scene.height_));
 	Color color{ 0.0f,0.0f,0.0f };
 	for (auto ray : rays) {
 		color += raytrace(ray);

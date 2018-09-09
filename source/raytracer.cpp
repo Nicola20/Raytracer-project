@@ -15,12 +15,14 @@ int main(int argc, char* argv[])
   unsigned const image_height = 900;
 
   SDFLoader load;
-	Scene scn = load.loadFile("C:/Users/Gabriel/Desktop/ray5/Raytracer-project/source/example.sdf");
+	Scene scn = load.loadFile("C:/Users/Gabriel/Desktop/ray5/Raytracer-project/source/scene1.sdf");
 
 
   //std::shared_ptr<Scene> scene = std::make_shared<Scene>();
 
-
+	/*for (int frames = 120; frames > 0; --frames) {
+		scn.composite_->shapes_->getName(tri1)->p1_.x - 1;
+	}*/
 
   std::string const filename = "./checkerboard.ppm";
 
