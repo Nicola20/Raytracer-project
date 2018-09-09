@@ -5,10 +5,9 @@ Triangle::Triangle(glm::vec3 const& p1, glm::vec3 const& p2, glm::vec3 const& p3
 	Shape::Shape{name, mat},
 	p1_{p1},
 	p2_{p2},
-	p3_{p3}
-	 { 
-         normal_ = glm::vec3(glm::dot(p3_ - p1_, p2_ - p1_)); //das hier ergibt keinen Sinn
-     }
+	p3_{p3},
+	normal_ {}
+{normal_ = glm::cross(p3_ - p1_, p2_ - p1_); }
 
 //Triangle::Triangle(): {}
 
@@ -27,7 +26,7 @@ std::ostream& Triangle::print(std::ostream& os) const
 		<< p3_.z << ")" << std::endl;
         return os;
 }
-	
+/*
 Hit Triangle::intersect(Ray const& inray) {
 	Hit hit;
 	Ray ray;
@@ -63,5 +62,67 @@ Hit Triangle::intersect(Ray const& inray) {
 			}
 		}
 	}
+		if (transformed_) {
+		hit.normal_ = glm::vec3(glm::mat3(glm::transpose(world_transformation_inv_))*hit.normal_);
+	}
 	return hit;
+}
+*/
+
+
+Hit Triangle::intersect(Ray const& inray)
+{
+	Hit triangle_hit;
+
+	Ray ray {inray.origin_, glm::normalize(inray.direction_)};
+
+		glm::vec3 a_b = p2_ - p1_;
+		glm::vec3 a_c = p3_ - p1_;
+		glm::vec3 normal = glm::cross(a_b, a_c);
+
+		float NdotRayDirection = glm::dot(normal, ray.direction_);
+
+	if (fabs(NdotRayDirection) == 0)
+	{return triangle_hit;}
+		
+		float d = glm::dot(normal, p1_);
+		float t = (glm::dot(normal, ray.origin_) + d) / NdotRayDirection;
+
+	if (t < 0)
+	{return triangle_hit;}
+	
+		glm::vec3 p = ray.origin_ + t * ray.direction_;
+		glm::vec3 c;
+		glm::vec3 edge_0 = p2_ - p1_;
+		glm::vec3 vp0 = p - p1_;
+		c = glm::cross(edge_0, vp0);
+
+	if (glm::dot(normal, c) < 0)
+	{return triangle_hit;}
+		
+		glm::vec3 edge_1 = p3_ - p2_;
+		glm::vec3 vp1 = p - p2_;
+		c = glm::cross(edge_1, vp1);
+
+	if (glm::dot(normal, c) < 0)
+	{return triangle_hit;}
+
+
+		glm::vec3 edge_2 = p1_ - p3_;
+		glm::vec3 vp2 = p - p3_;
+		c = glm::cross(edge_2, vp2);
+
+	if (glm::dot(normal, c) < 0)
+	{return triangle_hit;}
+		
+	
+
+
+	triangle_hit.distance_ = t;
+	triangle_hit.hit_ = true;
+	triangle_hit.closest_shape_ = this;
+	triangle_hit.normal_ = glm::normalize(normal);
+	triangle_hit.intersection_ = ray.origin_ + ray.direction_ * t;
+
+	return triangle_hit;
 }

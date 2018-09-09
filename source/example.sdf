@@ -1,17 +1,19 @@
-define material red 1 0 0 1 0 0 1 0 0 20 1
+define material red 1 0 0 1 0 0 1 0 0 20 0
 define material green 0 1 0 0 1 0 0 1 0 50 0
-define material blue 0 0 1  0 0 1 0 0 1 10 0
+define material blue 0 0 1  0 0 1 0 0 1 50 1
 define shape box bbox -100 -10 0 100 -51 -500 green
 define shape box abox 20 0 -75 50 35 -150 blue
 define shape sphere ssphere -10 20 -100 10 blue
 define shape sphere asphere 10 20 -100 10 red 
+define shape triangle ttriangle -20 10 -100 20 10 -100 0 40 -50 blue
+define shape triangle tri -20 5 -50 -20 5 -100 -12 30 -75 red 
+
 define light lighty 0 100 -50 0.2 0.2 0.2 100
-define light lought 101 0 0 0.2 0.2 0.2 100
+
 define camera cam 45.0 0 0 0 0 0 -1 0 1 0 
-define shape composite root bbox ssphere asphere
+define shape composite root bbox ssphere asphere abox tri
 
 ambient 0.1 0.1 0.1 
 
 
-transform ssphere translate -20 10 0 
 render cam image.ppm 480 320

@@ -146,7 +146,7 @@ Color Renderer::spekularLight(Hit const& hit, std::shared_ptr<Lightsource> const
   return ip * cos * ks* m_pi;*/
   
   glm::vec3 reflection = glm::normalize(glm::reflect(-(vecToLight),hit.normal_));
-  float factor = std::max(0.0f, glm::dot(reflection, glm::normalize(-(ray.direction_))));
+  float factor = glm::max(0.0f, glm::dot(reflection, glm::normalize(-(ray.direction_))));
   clr = (hit.closest_shape_ ->getMaterial()-> ks_)*pow(factor, hit.closest_shape_ ->getMaterial()-> m_);
   return clr;
 }
