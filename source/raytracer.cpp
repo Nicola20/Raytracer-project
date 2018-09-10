@@ -11,18 +11,18 @@
 int main(int argc, char* argv[])
 {
 
-  unsigned const image_width = 1200;
-  unsigned const image_height = 900;
+  unsigned const image_width = 1280;
+  unsigned const image_height = 720;
 
   SDFLoader load;
 	Scene scn = load.loadFile("C:/Users/Gabriel/Desktop/ray5/Raytracer-project/source/scene1.sdf");
 
 
-  //std::shared_ptr<Scene> scene = std::make_shared<Scene>();
+  std::shared_ptr<Scene> scene = std::make_shared<Scene>();
 
-	/*for (int frames = 120; frames > 0; --frames) {
-		scn.composite_->shapes_->getName(tri1)->p1_.x - 1;
-	}*/
+	for (int frames = 1; frames > 120; ++frames) {
+		//normie.position - frames;
+	}
 
   std::string const filename = "./checkerboard.ppm";
 

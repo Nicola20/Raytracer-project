@@ -42,7 +42,8 @@ public:
   Color spekularLight(Hit const& hit, std::shared_ptr<Lightsource> const& light, glm::vec3 const& vecToLight, Ray const& ray);
   Color tonemapping(Color const& clr);
   Color calculateReflection(Hit const& hit, Ray const& ray, Scene const& scene, int step);
-  Color antialias(Pixel & p, Scene const& scene);
+  //Color antialias(Pixel & p, Scene const& scene);
+  Color antialias(Ray const& ray, float factor);
 
   void render(Scene const& scene);
   void write(Pixel const& p);

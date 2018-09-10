@@ -44,8 +44,8 @@ void Renderer::render(Scene const& scene)
         p.color = Color(1.0, 0.0, float(y)/width_);
       }
   */  Color tmp;  
-      //tmp = raytrace(pixelRay);  //hier zu tmpcollor = raytrace und dann p.color mit tonemappingformel berechnen
-	  tmp = antialias(p, scene_);
+      tmp = raytrace(pixelRay);  //hier zu tmpcollor = raytrace und dann p.color mit tonemappingformel berechnen
+	  //tmp = antialias(pixelRay, 4);
       p.color = tonemapping(tmp);
       
 
@@ -75,7 +75,7 @@ Color Renderer::raytrace(Ray const& ray) {
 	clr = calculateColor(closest, ray, step); 
 
   } else {
-		clr = Color{ 0.0f, 0.0f, 0.4f }; //Hier Farbwert für Hintergrund setzen: dunkelblau
+		clr = Color{ 0.0f, 0.0f, 0.0f }; //Hier Farbwert für Hintergrund setzen: dunkelblau
 	}
 	return clr; //Farbberechnung, die sich durch die Funktionen aufaddiert hat
 	
@@ -161,7 +161,7 @@ Color Renderer::calculateReflection(Hit const& hit, Ray const& ray, Scene const&
 	//Color maincolor = hit.closest_shape_->getMaterial()->ka_;
 
 	if (!new_hit.hit_) {
-		 Color umgebung{ 0.0f, 0.0f, 0.4f };
+		 Color umgebung{ 0.0f, 0.0f, 0.0f };
 		
 		 return umgebung; //+ maincolor * 0.2f + objectlight * 0.4f;
 	}
@@ -241,23 +241,43 @@ Color Renderer::tonemapping(Color const& clr) {
 
   return final;
 }
-
+/*
 Color Renderer::antialias(Pixel & p, Scene const& scene) {
 	float x = p.x;
 	float y = p.y;
 	std::vector<Ray> rays;
-	rays.push_back(scene.cam_.calculateCamRay(x, y, scene.width_, scene.height_));
 	rays.push_back(scene.cam_.calculateCamRay(x + 0.5, y + 0.5, scene.width_, scene.height_));
 	rays.push_back(scene.cam_.calculateCamRay(x - 0.5, y - 0.5, scene.width_, scene.height_));
 	rays.push_back(scene.cam_.calculateCamRay(x - 0.5, y - 0.5, scene.width_, scene.height_));
 	rays.push_back(scene.cam_.calculateCamRay(x + 0.5, y + 0.5, scene.width_, scene.height_));
 	Color color{ 0.0f,0.0f,0.0f };
 	for (auto ray : rays) {
-		color += raytrace(ray);
+		color += raytrace(ray)*(1.0f / rays.size());
 	}
-	return color * (1.0f / rays.size());
+	return color;
 }
+*/
+Color Renderer::antialias(Ray const& ray, float factor) {
+	Color clr;
+	int samples = sqrt(factor);
 
+	for (int i = 1; i < samples + 1; ++i) {
+		for (int j = 1; j < samples + 1; ++j) {
+			Ray temp_ray;
+			temp_ray.origin_ = ray.origin_;
+
+			temp_ray.direction_.x = ray.direction_.x + (float)(i) / (float)samples - 0, 5;
+			temp_ray.direction_.y = ray.direction_.y + (float)(j) / (float)samples - 0, 5;
+			temp_ray.direction_.z = ray.direction_.z;
+
+			clr += raytrace(temp_ray);
+		}
+	}
+	clr.r = clr.r / factor;
+	clr.g = clr.g / factor;
+	clr.b = clr.b / factor;
+	return clr;
+}
 
 void Renderer::write(Pixel const& p)
 {
